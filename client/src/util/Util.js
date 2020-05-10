@@ -12,7 +12,7 @@ const Util = {
         return Youtube.getPlaylist(youtubeUrl).then((res) => {
             const urls = Youtube.getVideoUrls(res);
             console.log(urls);
-            parallel(
+            return parallel(
                 urls.map((url) => {
                     return () => {
                         return Youtube.getVideoInfo(url).then((track) =>
@@ -24,7 +24,7 @@ const Util = {
                 .then(() => {
                     console.log(tracks);
 
-                    parallel(
+                    return parallel(
                         tracks.map((track) => {
                             return () => {
                                 return Spotify.search(

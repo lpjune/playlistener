@@ -21,9 +21,10 @@ export class App extends Component {
     }
     findTracks = (playlistUrl) => {
         return Util.getTracks(playlistUrl).then((res) =>
-            this.setState({
+            {console.log(res);
+                this.setState({
                 searchResults: res,
-            })
+            })}
         );
     };
     render() {
