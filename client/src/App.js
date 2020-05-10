@@ -15,36 +15,21 @@ Youtube.getPlaylist(
     const urls = Youtube.getVideoUrls(res);
     console.log(urls);
     parallel(
-        urls
-            .map((url) => {
-                return () => {
-                    // We need to return a 'thunk' function, so that the jobs can be started when they are need, rather than all at once.
-                    const track = Youtube.getVideoInfo(url);
-                    tracks.push(track);
-                    return track;
-                };
-            }, batchSize))
-            .then(() => {
-                console.log(tracks);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-          })
-
-
-// Youtube.getPlaylist(
-//     "https://www.youtube.com/playlist?list=PLsAk6h4n-dS3IG4H69AMcWI1-3CmasVWb"
-// )
-//     .then((res) => {
-//         let urls = Youtube.getVideoUrls(res);
-//         console.log(urls)
-//         for (let i = 0; i < urls.length-1; i++) {
-
-//           Youtube.getVideoInfo(urls[i])
-//           .then((info) => {
-//             tracks.push(info);
-//         })}})
+        urls.map((url) => {
+            return () => {
+                return Youtube.getVideoInfo(url).then((track) =>
+                    tracks.push(track)
+                );
+            };
+        }, batchSize)
+    )
+        .then(() => {
+            console.log(tracks);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
 
 // Youtube.getVideoInfo('https://www.youtube.com/watch?v=pok8H_KF1FA').then(res => {
 //   Spotify.search(res.name, res.artist)
