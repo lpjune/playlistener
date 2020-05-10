@@ -5,7 +5,11 @@ import Youtube from './util/Youtube';
 import Spotify from './util/Spotify';
 import Customers from './components/customers';
 
-Youtube.getVideoInfo('https://www.youtube.com/watch?v=pok8H_KF1FA');
+Spotify.getAccessToken();
+Youtube.getVideoInfo('https://www.youtube.com/watch?v=pok8H_KF1FA').then(res => {
+  Spotify.search(res.name, res.artist)
+})
+
 // fetch('/api/info')
 //       .then(res => res.json())
 //       .then(res => console.log("Info fetched...", res));

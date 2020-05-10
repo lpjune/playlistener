@@ -27,7 +27,7 @@ const Spotify = {
     },
 
     search(name, artist) {
-        const searchURI = `https://api.spotify.com/v1/search?type=track&q=$q=name:${name}&q=artist:${artist}`;
+        const searchURI = `https://api.spotify.com/v1/search?query=track%3A${name}+artist%3A${artist}&type=track&offset=0&limit=1`;
         return fetch(searchURI, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,

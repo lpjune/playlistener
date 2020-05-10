@@ -20,11 +20,13 @@ const Youtube = {
 
     getVideoInfo(ytUrl) {
         const apiUrl = "/api/info";
-        axios
+        return axios
             .get(apiUrl, {
                 headers: { ytUrl: ytUrl },
             })
-            .then(res => console.log(res.data))
+            .then((res) => {
+                return res.data;
+            })
             .catch((err) => console.log(err));
     },
 };
