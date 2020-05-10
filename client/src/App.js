@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Youtube from './util/Youtube';
+import Spotify from './util/Spotify';
 import Customers from './components/customers';
+
+Youtube.getVideoInfo('https://www.youtube.com/watch?v=pok8H_KF1FA');
+// fetch('/api/info')
+//       .then(res => res.json())
+//       .then(res => console.log("Info fetched...", res));
 
 class App extends Component {
   render() {
