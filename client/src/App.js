@@ -7,7 +7,10 @@ import Customers from "./components/customers";
 const parallel = require("async-await-parallel");
 
 const tracks = [];
+const spotifyIds = [];
 const batchSize = 1;
+
+Spotify.getAccessToken();
 
 Youtube.getPlaylist(
     "https://www.youtube.com/playlist?list=PLKwdCSm79ywfMn7teN_Y1GbA5VLkeiKVy"
@@ -25,7 +28,26 @@ Youtube.getPlaylist(
     )
         .then(() => {
             console.log(tracks);
+
+            parallel(
+                tracks.map((track) => {
+                    return () => {
+                        return Spotify.search(
+                            track.name,
+                            track.artist
+                        ).then((id) => spotifyIds.push(id));
+                    };
+                }, batchSize)
+            )
+                .then(() => {
+                    console.log(spotifyIds);
+                    return spotifyIds;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         })
+
         .catch((err) => {
             console.log(err);
         });
@@ -44,7 +66,7 @@ export class App extends Component {
             playlistTracks: [],
         };
     }
-    search = (term) => {
+    findTracks = (playlistUrl) => {
         return Spotify.search(term).then((res) =>
             this.setState({
                 searchResults: res,
