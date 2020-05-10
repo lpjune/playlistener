@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 const CLIENT_ID = "af5f2146af744806b816c937c6514317";
 const REDIRECT_URI = "http://localhost:3000/";
 const USER_URI = "https://api.spotify.com/v1/me";

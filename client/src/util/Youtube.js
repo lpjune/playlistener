@@ -1,5 +1,4 @@
 const axios = require("axios");
-const ytdl = require("ytdl-core");
 const YOUTUBE_API = "AIzaSyClBqE-9PVuFN93FhHNcpIzV9KKbxRWk6c";
 
 const Youtube = {
