@@ -3,11 +3,12 @@ import React, { Component } from "react";
 export class Track extends Component {
     renderAction() {
         if(this.props.isRemoval) {
-            return <button className="Track-action"> - </button>
+            return <button className="Track-action" onClick={this.removeTrack}> - </button>
         } else {
             return <button className="Track-action"> + </button>
         }
     }
+    removeTrack = () => this.props.onRemove(this.props.track);
 
     render() {
         return (
