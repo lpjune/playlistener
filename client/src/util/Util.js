@@ -5,7 +5,7 @@ const parallel = require("async-await-parallel");
 
 const tracks = [];
 const spotifyIds = [];
-const batchSize = 5;
+const batchSize = 10;
 
 const Util = {
     getTracks(youtubeUrl) {
