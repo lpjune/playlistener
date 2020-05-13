@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import Playlist from "./components/Playlist/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
+import Container from "@material-ui/core/Container";
 
 Spotify.getAccessToken();
 
@@ -79,16 +80,20 @@ export class App extends Component {
     render() {
         return (
             <div>
-                <h1>Playlistener</h1>
+                <h1>playlistener</h1>
                 <div className="App">
-                    <SearchBar onSearch={this.findTracks} />
-                    <Playlist
-                        playlistName={this.state.playlistName}
-                        playlistTracks={this.state.playlistTracks}
-                        onRemove={this.removeTrack}
-                        onNameChange={this.updatePlaylistName}
-                        onSave={this.savePlaylist}
-                    />
+                    <Container maxWidth={"md"}>
+                        <SearchBar onSearch={this.findTracks} />
+                    </Container>
+                    <Container maxWidth={"sm"}>
+                        <Playlist
+                            playlistName={this.state.playlistName}
+                            playlistTracks={this.state.playlistTracks}
+                            onRemove={this.removeTrack}
+                            onNameChange={this.updatePlaylistName}
+                            onSave={this.savePlaylist}
+                        />
+                    </Container>
                 </div>
             </div>
         );
