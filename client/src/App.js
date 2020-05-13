@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import Playlist from "./components/Playlist/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
+import Container from "@material-ui/core/Container";
 
 Spotify.getAccessToken();
 
@@ -12,7 +13,37 @@ export class App extends Component {
         super(props);
         this.state = {
             playlistName: "New Playlist",
-            playlistTracks: [],
+            playlistTracks: [
+                {
+                    name: "Acid Wash Ocean",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                },
+
+                {
+                    name: "Sweet Thang",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                },
+
+                {
+                    name: "Teenage Blue",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                },
+
+                {
+                    name: "Pretty Sexual",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                },
+
+                {
+                    name: "Stranger Feelings",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                },
+            ],
         };
     }
     findTracks = (playlistUrl) => {
@@ -28,32 +59,41 @@ export class App extends Component {
     };
     removeTrack = (track) => {
         this.setState({
-            playlistTracks: this.state.playlistTracks.filter(playlistTrack => playlistTrack.id !== track.id)
+            playlistTracks: this.state.playlistTracks.filter(
+                (playlistTrack) => playlistTrack.id !== track.id
+            ),
         });
     };
     updatePlaylistName = (name) => {
         this.setState({ playlistName: name });
     };
     savePlaylist = () => {
-        const trackURIs = this.state.playlistTracks.map(playlistTrack => playlistTrack.uri);
+        const trackURIs = this.state.playlistTracks.map(
+            (playlistTrack) => playlistTrack.uri
+        );
         Spotify.savePlaylist(this.state.playlistName, trackURIs);
         this.setState({
             playlistName: "New Playlist",
-            playlistTracks: []
-        })
+            playlistTracks: [],
+        });
     };
     render() {
         return (
             <div>
-                <h1>Playlistener</h1>
+                <h1>playlistener</h1>
                 <div className="App">
-                    <SearchBar onSearch={this.findTracks} />
-                    <Playlist 
-                            playlistName={this.state.playlistName} 
-                            playlistTracks={this.state.playlistTracks} 
-                            onRemove={this.removeTrack} 
-                            onNameChange={this.updatePlaylistName} 
-                            onSave={this.savePlaylist} />
+                    <Container maxWidth={"md"}>
+                        <SearchBar onSearch={this.findTracks} />
+                    </Container>
+                    <Container maxWidth={"sm"}>
+                        <Playlist
+                            playlistName={this.state.playlistName}
+                            playlistTracks={this.state.playlistTracks}
+                            onRemove={this.removeTrack}
+                            onNameChange={this.updatePlaylistName}
+                            onSave={this.savePlaylist}
+                        />
+                    </Container>
                 </div>
             </div>
         );
