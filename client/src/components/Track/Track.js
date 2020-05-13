@@ -5,7 +5,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import ClearIcon from '@material-ui/icons/Clear';
+import ClearIcon from "@material-ui/icons/Clear";
+import CardMedia from "@material-ui/core/CardMedia";
 
 const useStyles = {
     root: {
@@ -15,8 +16,12 @@ const useStyles = {
         position: "relative",
     },
     content: {
-        padding: 20,
+        padding: 10,
         objectFit: "cover",
+    },
+    art: {
+        width: 75,
+        height: 75,
     },
 };
 
@@ -28,6 +33,7 @@ export class Track extends Component {
 
         return (
             <Card className={classes.root}>
+                <CardMedia className={classes.art} image={this.props.track.art}></CardMedia>
                 <CardContent className={classes.content}>
                     <Typography
                         className={classes.artist}
@@ -44,7 +50,11 @@ export class Track extends Component {
                     </Typography>
                 </CardContent>
                 {this.props.isRemoval ? (
-                    <IconButton aria-label="delete" onClick={this.removeTrack} size={"sm"}>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={this.removeTrack}
+                        size={"small"}
+                    >
                         <ClearIcon />
                     </IconButton>
                 ) : (
