@@ -3,12 +3,12 @@ import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
-import Container from "@material-ui/core/Container";
 import {
     withStyles,
     MuiThemeProvider,
     createMuiTheme,
-} from "@material-ui/core/styles";
+    Container,
+} from "@material-ui/core";
 import themeFile from "./util/Theme";
 
 const theme = createMuiTheme(themeFile);

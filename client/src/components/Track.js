@@ -42,6 +42,7 @@ export class Track extends Component {
                 <CardContent className={classes.content}>
                     <Typography
                         className={classes.artist}
+                        // "primary" for theme primary
                         color="textSecondary"
                         variant="h6"
                     >
