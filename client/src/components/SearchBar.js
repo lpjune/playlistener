@@ -7,9 +7,8 @@ const styles = theme => ({
     searchDiv: {
         display: "flex",
     },
-    searchField: {},
     searchButton: {
-        marginLeft: 20,
+        marginLeft: 10,
     },
 });
 
@@ -28,7 +27,6 @@ export class SearchBar extends Component {
         return (
             <div className={classes.searchDiv}>
                 <TextField
-                    className={classes.searchField}
                     fullWidth
                     variant="outlined"
                     placeholder="Enter a Youtube Playlist URL"

@@ -8,12 +8,17 @@ import {
     MuiThemeProvider,
     createMuiTheme,
     Container,
+    Typography,
 } from "@material-ui/core";
 import themeFile from "./util/Theme";
 
 const theme = createMuiTheme(themeFile);
-const styles = theme => ({
+const styles = (theme) => ({
     ...theme.spreadThis,
+    title: {
+        textAlign: "center",
+        marginBottom: 5,
+    },
     search: {
         marginBottom: 20,
     },
@@ -71,7 +76,7 @@ export class App extends Component {
         };
     }
     findTracks = (playlistUrl) => {
-        this.setState({loading: true})
+        this.setState({ loading: true });
         let results = [];
         return Util.getTracks(playlistUrl).then((res) => {
             res.map((trackArray) => {
@@ -79,7 +84,7 @@ export class App extends Component {
             });
             this.setState({
                 playlistTracks: results,
-                loading: false
+                loading: false,
             });
         });
     };
@@ -110,8 +115,10 @@ export class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <Container>
                     <div>
-                        <h1>playlistener</h1>
                         <div>
+                            <Typography className={classes.title} color="textPrimary" variant="h4">
+                                playlistener
+                            </Typography>
                             <Container
                                 className={classes.search}
                                 maxWidth={"md"}

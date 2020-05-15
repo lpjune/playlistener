@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import TrackList from "./TrackList";
+import PlaylistSkeleton from "./PlaylistSkeleton";
 import {
     withStyles,
     TextField,
     Button,
-    LinearProgress,
 } from "@material-ui/core";
 
 const styles = (theme) => ({
@@ -52,7 +52,7 @@ export class Playlist extends Component {
                 />
             </div>
         ) : (
-            <LinearProgress />
+            <PlaylistSkeleton />
         );
 
         return playlistMarkup;
