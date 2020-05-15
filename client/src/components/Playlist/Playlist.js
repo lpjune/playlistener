@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TrackList from "../TrackList/TrackList";
+import TextField from "@material-ui/core/TextField";
 
 export class Playlist extends Component {
     handleNameChange = (event) => {
@@ -9,7 +10,7 @@ export class Playlist extends Component {
     render() {
         return (
             <div className="Playlist">
-                <input value={this.props.playlistName} onChange={this.handleNameChange} />
+                <TextField value={this.props.playlistName} onChange={this.handleNameChange}></TextField>
                 {/* <!-- Add a TrackList component --> */}
                 <TrackList tracks={this.props.playlistTracks} onRemove={this.props.onRemove} isRemoval={true} />
                 <button className="Playlist-save" onClick={this.props.onSave}>SAVE TO SPOTIFY</button>

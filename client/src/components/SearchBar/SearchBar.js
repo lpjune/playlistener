@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TextField from "@material-ui/core/TextField";
 
 export class SearchBar extends Component {
     search = (term) => this.props.onSearch(term);
@@ -12,7 +13,7 @@ export class SearchBar extends Component {
     render() {
         return (
             <div className="SearchBar">
-                <input placeholder="Enter A Youtube Playlist URL" id="urlInput" />
+                <TextField fullWidth variant="outlined" placeholder="Enter A Youtube Playlist URL" id="urlInput"></TextField>
                 <button className="SearchButton" onClick={this.handleClick}>SEARCH</button>
             </div>
         );
