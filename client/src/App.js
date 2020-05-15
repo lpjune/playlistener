@@ -5,8 +5,15 @@ import Playlist from "./components/Playlist/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import Container from "@material-ui/core/Container";
+import { withStyles } from "@material-ui/core/styles";
 
 Spotify.getAccessToken();
+
+const useStyles = {
+    search: {
+        marginBottom: 20,
+    },
+};
 
 export class App extends Component {
     constructor(props) {
@@ -83,11 +90,14 @@ export class App extends Component {
         });
     };
     render() {
+        const { classes } = this.props;
+
         return (
+            <Container>
             <div>
                 <h1>playlistener</h1>
                 <div className="App">
-                    <Container maxWidth={"md"}>
+                    <Container className={classes.search} maxWidth={"md"}>
                         <SearchBar onSearch={this.findTracks} />
                     </Container>
                     <Container maxWidth={"sm"}>
@@ -101,8 +111,9 @@ export class App extends Component {
                     </Container>
                 </div>
             </div>
+            </Container>
         );
     }
 }
 
-export default App;
+export default withStyles(useStyles)(App);

@@ -1,27 +1,31 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import ClearIcon from "@material-ui/icons/Clear";
-import CardMedia from "@material-ui/core/CardMedia";
+import { withStyles, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
+import { Clear as ClearIcon } from "@material-ui/icons";
 
 const useStyles = {
-    root: {
+    card: {
         display: "flex",
-        justifyContent: "center",
-        marginBottom: 20,
         position: "relative",
+        marginBottom: 15,
+        marginLeft: "10%",
+        marginRight: "10%",
     },
     content: {
         padding: 10,
         objectFit: "cover",
+        textAlign: "left",
     },
     art: {
-        width: 75,
-        height: 75,
+        width: 100,
+        height: 100,
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: 5,
+    },
+    cardButton: {
+        position: "absolute",
+        right: 5,
+        bottom: 5,
     },
 };
 
@@ -32,7 +36,7 @@ export class Track extends Component {
         const { classes } = this.props;
 
         return (
-            <Card className={classes.root}>
+            <Card className={classes.card}>
                 <CardMedia className={classes.art} image={this.props.track.art}></CardMedia>
                 <CardContent className={classes.content}>
                     <Typography
@@ -42,7 +46,7 @@ export class Track extends Component {
                     >
                         {this.props.track.artist}
                     </Typography>
-                    <Typography variant="h5" component="h2">
+                    <Typography variant="h5">
                         {this.props.track.name}
                     </Typography>
                     <Typography className={classes.album} color="textSecondary">
@@ -51,6 +55,7 @@ export class Track extends Component {
                 </CardContent>
                 {this.props.isRemoval ? (
                     <IconButton
+                        className={classes.cardButton}
                         aria-label="delete"
                         onClick={this.removeTrack}
                         size={"small"}
@@ -58,7 +63,7 @@ export class Track extends Component {
                         <ClearIcon />
                     </IconButton>
                 ) : (
-                    <Button className={classes.addButton}> + </Button>
+                    <Button className={classes.cardButton}> + </Button>
                 )}
             </Card>
         );

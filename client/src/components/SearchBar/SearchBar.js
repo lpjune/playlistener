@@ -1,23 +1,50 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
+import { Button, TextField, withStyles } from "@material-ui/core";
+import { ImportExport as ImportExportIcon } from "@material-ui/icons";
+
+const useStyles = {
+    searchDiv: {
+        display: "flex",
+    },
+    searchField: {},
+    searchButton: {
+        marginLeft: 20,
+    },
+};
 
 export class SearchBar extends Component {
     search = (term) => this.props.onSearch(term);
 
     handleClick = (event) => {
         event.preventDefault();
-        const urlInput = document.getElementById("urlInput")
+        const urlInput = document.getElementById("urlInput");
         this.search(urlInput.value);
-    }
+    };
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <div className="SearchBar">
-                <TextField fullWidth variant="outlined" placeholder="Enter A Youtube Playlist URL" id="urlInput"></TextField>
-                <button className="SearchButton" onClick={this.handleClick}>SEARCH</button>
+            <div className={classes.searchDiv}>
+                <TextField
+                    className={classes.searchField}
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Enter a Youtube Playlist URL"
+                    id="urlInput"
+                ></TextField>
+                <Button
+                    className={classes.searchButton}
+                    onClick={this.handleClick}
+                    variant="contained"
+                    color="default"
+                    startIcon={<ImportExportIcon />}
+                >
+                    Go!
+                </Button>
             </div>
         );
     }
 }
 
-export default SearchBar;
+export default withStyles(useStyles)(SearchBar);
