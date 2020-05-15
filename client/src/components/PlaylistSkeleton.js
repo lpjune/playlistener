@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles, Box } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const styles = (theme) => ({

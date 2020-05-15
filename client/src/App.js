@@ -17,7 +17,7 @@ const styles = (theme) => ({
     ...theme.spreadThis,
     title: {
         textAlign: "center",
-        marginBottom: 5,
+        marginBottom: 10,
     },
     search: {
         marginBottom: 20,
@@ -31,55 +31,52 @@ export class App extends Component {
         super(props);
         this.state = {
             loading: false,
+            urlEntered: false,
             playlistName: "New Playlist",
             playlistTracks: [
-                {
-                    name: "Acid Wash Ocean",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-
-                {
-                    name: "Sweet Thang",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-
-                {
-                    name: "Teenage Blue",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-
-                {
-                    name: "Pretty Sexual",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-
-                {
-                    name: "Stranger Feelings",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
+                // {
+                //     name: "Acid Wash Ocean",
+                //     album: "Illuminaughty - EP",
+                //     artist: "Dreamgirl",
+                //     art:
+                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                // },
+                // {
+                //     name: "Sweet Thang",
+                //     album: "Illuminaughty - EP",
+                //     artist: "Dreamgirl",
+                //     art:
+                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                // },
+                // {
+                //     name: "Teenage Blue",
+                //     album: "Illuminaughty - EP",
+                //     artist: "Dreamgirl",
+                //     art:
+                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                // },
+                // {
+                //     name: "Pretty Sexual",
+                //     album: "Illuminaughty - EP",
+                //     artist: "Dreamgirl",
+                //     art:
+                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                // },
+                // {
+                //     name: "Stranger Feelings",
+                //     album: "Illuminaughty - EP",
+                //     artist: "Dreamgirl",
+                //     art:
+                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                // },
             ],
         };
     }
     findTracks = (playlistUrl) => {
-        this.setState({ loading: true });
+        this.setState({ loading: true, urlEntered: true });
         let results = [];
         return Util.getTracks(playlistUrl).then((res) => {
-            res.map((trackArray) => {
+            res.forEach((trackArray) => {
                 results.push(trackArray[0]);
             });
             this.setState({
@@ -116,7 +113,11 @@ export class App extends Component {
                 <Container>
                     <div>
                         <div>
-                            <Typography className={classes.title} color="textPrimary" variant="h4">
+                            <Typography
+                                className={classes.title}
+                                color="textPrimary"
+                                variant="h4"
+                            >
                                 playlistener
                             </Typography>
                             <Container
@@ -126,14 +127,20 @@ export class App extends Component {
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
                             <Container maxWidth={"sm"}>
-                                <Playlist
-                                    loading={this.state.loading}
-                                    playlistName={this.state.playlistName}
-                                    playlistTracks={this.state.playlistTracks}
-                                    onRemove={this.removeTrack}
-                                    onNameChange={this.updatePlaylistName}
-                                    onSave={this.savePlaylist}
-                                />
+                                {this.state.urlEntered ? (
+                                    <Playlist
+                                        loading={this.state.loading}
+                                        playlistName={this.state.playlistName}
+                                        playlistTracks={
+                                            this.state.playlistTracks
+                                        }
+                                        onRemove={this.removeTrack}
+                                        onNameChange={this.updatePlaylistName}
+                                        onSave={this.savePlaylist}
+                                    />
+                                ) : (
+                                    <div></div>
+                                )}
                             </Container>
                         </div>
                     </div>
