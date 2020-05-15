@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { withStyles, responsiveFontSizes, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
+import { withStyles, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
 import { Clear as ClearIcon } from "@material-ui/icons";
 
-const useStyles = {
+const styles = theme => ({
+    ...theme.spreadThis,
     card: {
         display: "flex",
         position: "relative",
@@ -27,7 +28,7 @@ const useStyles = {
         right: 5,
         bottom: 5,
     },
-};
+});
 
 export class Track extends Component {
     removeTrack = () => this.props.onRemove(this.props.track);
@@ -70,4 +71,4 @@ export class Track extends Component {
     }
 }
 
-export default withStyles(useStyles)(Track);
+export default withStyles(styles)(Track);

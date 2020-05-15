@@ -4,15 +4,22 @@ import Playlist from "./components/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import Container from "@material-ui/core/Container";
-import { withStyles } from "@material-ui/core/styles";
+import {
+    withStyles,
+    MuiThemeProvider,
+    createMuiTheme,
+} from "@material-ui/core/styles";
+import themeFile from "./util/Theme";
 
-Spotify.getAccessToken();
-
-const useStyles = {
+const theme = createMuiTheme(themeFile);
+const styles = theme => ({
+    ...theme.spreadThis,
     search: {
         marginBottom: 20,
     },
-};
+});
+
+Spotify.getAccessToken();
 
 export class App extends Component {
     constructor(props) {
@@ -24,35 +31,40 @@ export class App extends Component {
                     name: "Acid Wash Ocean",
                     album: "Illuminaughty - EP",
                     artist: "Dreamgirl",
-                    art: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
                 },
 
                 {
                     name: "Sweet Thang",
                     album: "Illuminaughty - EP",
                     artist: "Dreamgirl",
-                    art: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
                 },
 
                 {
                     name: "Teenage Blue",
                     album: "Illuminaughty - EP",
                     artist: "Dreamgirl",
-                    art: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
                 },
 
                 {
                     name: "Pretty Sexual",
                     album: "Illuminaughty - EP",
                     artist: "Dreamgirl",
-                    art: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
                 },
 
                 {
                     name: "Stranger Feelings",
                     album: "Illuminaughty - EP",
                     artist: "Dreamgirl",
-                    art: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
                 },
             ],
         };
@@ -92,27 +104,32 @@ export class App extends Component {
         const { classes } = this.props;
 
         return (
-            <Container>
-            <div>
-                <h1>playlistener</h1>
-                <div>
-                    <Container className={classes.search} maxWidth={"md"}>
-                        <SearchBar onSearch={this.findTracks} />
-                    </Container>
-                    <Container maxWidth={"sm"}>
-                        <Playlist
-                            playlistName={this.state.playlistName}
-                            playlistTracks={this.state.playlistTracks}
-                            onRemove={this.removeTrack}
-                            onNameChange={this.updatePlaylistName}
-                            onSave={this.savePlaylist}
-                        />
-                    </Container>
-                </div>
-            </div>
-            </Container>
+            <MuiThemeProvider theme={theme}>
+                <Container>
+                    <div>
+                        <h1>playlistener</h1>
+                        <div>
+                            <Container
+                                className={classes.search}
+                                maxWidth={"md"}
+                            >
+                                <SearchBar onSearch={this.findTracks} />
+                            </Container>
+                            <Container maxWidth={"sm"}>
+                                <Playlist
+                                    playlistName={this.state.playlistName}
+                                    playlistTracks={this.state.playlistTracks}
+                                    onRemove={this.removeTrack}
+                                    onNameChange={this.updatePlaylistName}
+                                    onSave={this.savePlaylist}
+                                />
+                            </Container>
+                        </div>
+                    </div>
+                </Container>
+            </MuiThemeProvider>
         );
     }
 }
 
-export default withStyles(useStyles)(App);
+export default withStyles(styles)(App);

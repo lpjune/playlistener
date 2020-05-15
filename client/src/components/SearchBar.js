@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Button, TextField, withStyles } from "@material-ui/core";
 import { ImportExport as ImportExportIcon } from "@material-ui/icons";
 
-const useStyles = {
+const styles = theme => ({
+    ...theme.spreadThis,
     searchDiv: {
         display: "flex",
     },
@@ -10,7 +11,7 @@ const useStyles = {
     searchButton: {
         marginLeft: 20,
     },
-};
+});
 
 export class SearchBar extends Component {
     search = (term) => this.props.onSearch(term);
@@ -47,4 +48,4 @@ export class SearchBar extends Component {
     }
 }
 
-export default withStyles(useStyles)(SearchBar);
+export default withStyles(styles)(SearchBar);

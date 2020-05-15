@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import TrackList from "./TrackList";
 import { withStyles, TextField, Button } from "@material-ui/core";
 
-const useStyles = {
+const styles = theme => ({
+    ...theme.spreadThis,
     playlist: {
         textAlign: "center",
     },
@@ -13,7 +14,7 @@ const useStyles = {
     saveButton: {
         marginBottom: 20,
     },
-};
+});
 
 export class Playlist extends Component {
     handleNameChange = (event) => {
@@ -49,4 +50,4 @@ export class Playlist extends Component {
     }
 }
 
-export default withStyles(useStyles)(Playlist);
+export default withStyles(styles)(Playlist);
