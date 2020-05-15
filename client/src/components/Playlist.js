@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import TrackList from "../TrackList/TrackList";
+import TrackList from "./TrackList";
 import { withStyles, TextField, Button } from "@material-ui/core";
 
 const useStyles = {
+    playlist: {
+        textAlign: "center",
+    },
     name: {
         display: "flex",
-        textAlign: "center",
         marginBottom: 10,
     },
     saveButton: {
@@ -22,7 +24,7 @@ export class Playlist extends Component {
         const { classes } = this.props;
 
         return (
-            <div className="Playlist">
+            <div className={classes.playlist}>
                 <TextField
                     className={classes.name}
                     inputProps={{ style: { textAlign: "center" } }}

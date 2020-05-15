@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
+import { withStyles, responsiveFontSizes, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
 import { Clear as ClearIcon } from "@material-ui/icons";
 
 const useStyles = {

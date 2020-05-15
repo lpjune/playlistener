@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import "./App.css";
-import SearchBar from "./components/SearchBar/SearchBar";
-import Playlist from "./components/Playlist/Playlist";
+import SearchBar from "./components/SearchBar";
+import Playlist from "./components/Playlist";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import Container from "@material-ui/core/Container";
@@ -96,7 +95,7 @@ export class App extends Component {
             <Container>
             <div>
                 <h1>playlistener</h1>
-                <div className="App">
+                <div>
                     <Container className={classes.search} maxWidth={"md"}>
                         <SearchBar onSearch={this.findTracks} />
                     </Container>
