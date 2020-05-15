@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import TrackList from "./TrackList";
-import { withStyles, TextField, Button } from "@material-ui/core";
+import {
+    withStyles,
+    TextField,
+    Button,
+    LinearProgress,
+} from "@material-ui/core";
 
-const styles = theme => ({
+const styles = (theme) => ({
     ...theme.spreadThis,
     playlist: {
         textAlign: "center",
@@ -24,7 +29,7 @@ export class Playlist extends Component {
     render() {
         const { classes } = this.props;
 
-        return (
+        let playlistMarkup = !this.props.loading ? (
             <div className={classes.playlist}>
                 <TextField
                     className={classes.name}
@@ -46,7 +51,11 @@ export class Playlist extends Component {
                     isRemoval={true}
                 />
             </div>
+        ) : (
+            <LinearProgress />
         );
+
+        return playlistMarkup;
     }
 }
 

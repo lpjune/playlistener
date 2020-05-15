@@ -25,6 +25,7 @@ export class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             playlistName: "New Playlist",
             playlistTracks: [
                 {
@@ -70,6 +71,7 @@ export class App extends Component {
         };
     }
     findTracks = (playlistUrl) => {
+        this.setState({loading: true})
         let results = [];
         return Util.getTracks(playlistUrl).then((res) => {
             res.map((trackArray) => {
@@ -77,6 +79,7 @@ export class App extends Component {
             });
             this.setState({
                 playlistTracks: results,
+                loading: false
             });
         });
     };
@@ -117,6 +120,7 @@ export class App extends Component {
                             </Container>
                             <Container maxWidth={"sm"}>
                                 <Playlist
+                                    loading={this.state.loading}
                                     playlistName={this.state.playlistName}
                                     playlistTracks={this.state.playlistTracks}
                                     onRemove={this.removeTrack}
