@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
+import Logos from "./components/Logos";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import {
@@ -90,8 +91,9 @@ export class App extends Component {
                             >
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
-                            <Container maxWidth={"sm"}>
-                                {this.state.urlEntered ? (
+
+                            {this.state.urlEntered ? (
+                                <Container maxWidth={"sm"}>
                                     <Playlist
                                         loading={this.state.loading}
                                         playlistName={this.state.playlistName}
@@ -102,10 +104,10 @@ export class App extends Component {
                                         onNameChange={this.updatePlaylistName}
                                         onSave={this.savePlaylist}
                                     />
-                                ) : (
-                                    <div></div>
-                                )}
-                            </Container>
+                                </Container>
+                            ) : (
+                                <Logos />
+                            )}
                         </div>
                     </div>
                 </Container>
