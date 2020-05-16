@@ -31,44 +31,44 @@ export class App extends Component {
         super(props);
         this.state = {
             loading: false,
-            urlEntered: false,
+            urlEntered: true,
             playlistName: "New Playlist",
             playlistTracks: [
-                // {
-                //     name: "Acid Wash Ocean",
-                //     album: "Illuminaughty - EP",
-                //     artist: "Dreamgirl",
-                //     art:
-                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                // },
-                // {
-                //     name: "Sweet Thang",
-                //     album: "Illuminaughty - EP",
-                //     artist: "Dreamgirl",
-                //     art:
-                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                // },
-                // {
-                //     name: "Teenage Blue",
-                //     album: "Illuminaughty - EP",
-                //     artist: "Dreamgirl",
-                //     art:
-                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                // },
-                // {
-                //     name: "Pretty Sexual",
-                //     album: "Illuminaughty - EP",
-                //     artist: "Dreamgirl",
-                //     art:
-                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                // },
-                // {
-                //     name: "Stranger Feelings",
-                //     album: "Illuminaughty - EP",
-                //     artist: "Dreamgirl",
-                //     art:
-                //         "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                // },
+                {
+                    name: "Acid Wash Ocean",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                },
+                {
+                    name: "Sweet Thang",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                },
+                {
+                    name: "Teenage Blue",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                },
+                {
+                    name: "Pretty Sexual",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                },
+                {
+                    name: "Stranger Feelings",
+                    album: "Illuminaughty - EP",
+                    artist: "Dreamgirl",
+                    art:
+                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
+                },
             ],
         };
     }

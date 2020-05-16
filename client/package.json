@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "async-await-parallel": "^1.0.0",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"

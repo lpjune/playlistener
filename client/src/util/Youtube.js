@@ -1,5 +1,5 @@
 const axios = require("axios");
-const YOUTUBE_API = "AIzaSyClBqE-9PVuFN93FhHNcpIzV9KKbxRWk6c";
+const YOUTUBE_API = process.env.REACT_APP_YT_KEY;
 
 const Youtube = {
     getPlaylist(url) {
