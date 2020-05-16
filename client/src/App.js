@@ -20,9 +20,6 @@ const styles = (theme) => ({
         textAlign: "center",
         marginBottom: 10,
     },
-    search: {
-        marginBottom: 20,
-    },
 });
 
 Spotify.getAccessToken();
@@ -86,7 +83,6 @@ export class App extends Component {
                                 playlistener
                             </Typography>
                             <Container
-                                className={classes.search}
                                 maxWidth={"md"}
                             >
                                 <SearchBar onSearch={this.findTracks} />

@@ -7,16 +7,9 @@ const styles = theme => ({
         display: "flex",
         flexDirection: "column",
         maxWidth: "80%",
-        paddingTop: "8%",
     },
-    ytImage: {
-        backgroundColor: "black",
-        width: "40%",
-        margin: "auto",
-        marginBottom: "10%",
-    },
-    spotifyImage: {
-        width: "40%",
+    image: {
+        width: "45%",
         margin: "auto",
     },
 });
@@ -27,8 +20,7 @@ export class Logos extends Component {
 
         return (
             <Container className={classes.container}>
-                <img className={classes.ytImage} src="./images/yt_logo_mono_dark.png" />
-                <img className={classes.spotifyImage} src="./images/Spotify_Logo_RGB_Black.png" />
+                <img className={classes.image} src="./images/info.png" alt="" />
             </Container>
         )
     }
