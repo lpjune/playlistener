@@ -22,3 +22,9 @@ npm run client
 
 # Server runs on http://localhost:5000 and client on http://localhost:3000
 ```
+
+### Env
+.env file in client root
+ex:
+REACT_APP_YT_KEY=youtubekey
+REACT_APP_SPOTIFY_KEY=spotifykey
