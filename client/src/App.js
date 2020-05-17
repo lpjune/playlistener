@@ -46,7 +46,7 @@ export class App extends Component {
         };
     }
     findTracks = (playlistUrl) => {
-        this.setState({ loading: true, urlEntered: true });
+        this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
         let results = [];
         return Util.getTracks(playlistUrl).then((res) => {
             res.forEach((trackArray) => {
@@ -93,7 +93,10 @@ export class App extends Component {
                             >
                                 playlistener
                             </Typography>
-                            <Container className={classes.searchContainer} maxWidth={"md"}>
+                            <Container
+                                className={classes.searchContainer}
+                                maxWidth={"md"}
+                            >
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
 

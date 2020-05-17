@@ -3,13 +3,13 @@ import Spotify from "./Spotify";
 
 const parallel = require("async-await-parallel");
 
-const tracks = [];
-const spotifyIds = [];
-const batchSize = 10;
-const tracksNotFound = [];
-
 const Util = {
     getTracks(playlistUrl) {
+        const tracks = [];
+        const tracksNotFound = [];
+        const spotifyIds = [];
+        const batchSize = 10;
+
         return Youtube.getPlaylist(playlistUrl).then((res) => {
             const videoUrls = res;
             return parallel(

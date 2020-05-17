@@ -1,3 +1,4 @@
+const axios = require("axios");
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_KEY;
 const REDIRECT_URI = "http://localhost:3000/";
 const USER_URI = "https://api.spotify.com/v1/me";
@@ -26,15 +27,16 @@ const Spotify = {
 
     search(name, artist) {
         const searchURI = `https://api.spotify.com/v1/search?query=track%3A${name}+artist%3A${artist}&type=track&offset=0&limit=1`;
-        return fetch(searchURI, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-            .then((res) => res.json())
+        return axios
+            .get(searchURI, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
             .then((res) => {
-                if (!res.tracks) return [];
-                return res.tracks.items.map((track) => {
+                if (!res.data.tracks) return [];
+                let tracks = res.data.tracks.items;
+                return tracks.map((track) => {
                     return {
                         id: track.id,
                         name: track.name,
@@ -53,11 +55,15 @@ const Spotify = {
         let userToken = accessToken;
         let userID;
         let playlistID;
-        fetch(USER_URI, {
-            headers: { Authorization: `Bearer ${userToken}` },
-        })
-            .then((res) => res.json())
-            .then((res) => (userID = res.id))
+
+        axios
+            .get(USER_URI, {
+                headers: { Authorization: `Bearer ${userToken}` },
+            })
+            .then((res) => {
+                userID = res.data.id;
+            })
+
             .then(() => {
                 let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
                 fetch(createPlaylistURI, {
