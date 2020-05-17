@@ -1,29 +1,30 @@
-import Youtube from './Youtube';
-import Spotify from './Spotify';
+import Youtube from "./Youtube";
+import Spotify from "./Spotify";
 
 const parallel = require("async-await-parallel");
 
 const tracks = [];
 const spotifyIds = [];
 const batchSize = 10;
+const tracksNotFound = [];
 
 const Util = {
-    getTracks(youtubeUrl) {
-        return Youtube.getPlaylist(youtubeUrl).then((res) => {
-            const urls = Youtube.getVideoUrls(res);
-            console.log(urls);
+    getTracks(playlistUrl) {
+        return Youtube.getPlaylist(playlistUrl).then((res) => {
+            const videoUrls = res;
             return parallel(
-                urls.map((url) => {
+                videoUrls.map((url) => {
                     return () => {
-                        return Youtube.getVideoInfo(url).then((track) =>
-                            tracks.push(track)
-                        );
+                        return Youtube.getVideoInfo(url).then((track) => {
+                            if (track.name && track.artist) tracks.push(track);
+                            else tracksNotFound.push(track.url);
+                        });
                     };
                 }, batchSize)
             )
                 .then(() => {
                     console.log(tracks);
-
+                    console.log(tracksNotFound);
                     return parallel(
                         tracks.map((track) => {
                             return () => {

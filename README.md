@@ -24,7 +24,7 @@ npm run client
 ```
 
 ### Env
-.env file in client root
-ex:
-REACT_APP_YT_KEY=youtubekey
+``` 
+# .env file in client root ex:
 REACT_APP_SPOTIFY_KEY=spotifykey
+```
