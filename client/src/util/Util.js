@@ -1,14 +1,11 @@
 import Youtube from "./Youtube";
 import Spotify from "./Spotify";
 
-const parallel = require("async-await-parallel");
-
 const Util = {
     getTracks(playlistUrl) {
         const tracks = [];
         const tracksNotFound = [];
-        const spotifyIds = [];
-        const batchSize = 10;
+        let spotifyIds = [];
 
         return Youtube.getPlaylist(playlistUrl).then((res) => {
             const videoUrls = res;
@@ -24,17 +21,11 @@ const Util = {
                 .then(() => {
                     console.log(tracks);
                     console.log(tracksNotFound);
-                    return parallel(
-                        tracks.map((track) => {
-                            return () => {
-                                return Spotify.search(
-                                    track.name,
-                                    track.artist
-                                ).then((id) => spotifyIds.push(id));
-                            };
-                        }, batchSize)
-                    )
-                        .then(() => {
+
+                    return Spotify.search(tracks)
+
+                        .then((res) => {
+                            spotifyIds = res;
                             console.log(spotifyIds);
                             return spotifyIds;
                         })

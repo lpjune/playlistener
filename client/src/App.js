@@ -47,13 +47,9 @@ export class App extends Component {
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
-        let results = [];
         return Util.getTracks(playlistUrl).then((res) => {
-            res.forEach((trackArray) => {
-                results.push(trackArray[0]);
-            });
             this.setState({
-                playlistTracks: results,
+                playlistTracks: res,
                 loading: false,
             });
         });

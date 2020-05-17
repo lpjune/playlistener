@@ -25,27 +25,40 @@ const Spotify = {
         }
     },
 
-    search(name, artist) {
-        const searchURI = `https://api.spotify.com/v1/search?query=track%3A${name}+artist%3A${artist}&type=track&offset=0&limit=1`;
-        return axios
-            .get(searchURI, {
+    search(trackSearchInfo) {
+        let axiosArray = [];
+        let trackInfo = [];
+        trackSearchInfo.forEach((track) => {
+            const searchURI = `https://api.spotify.com/v1/search?query=track%3A${track.name}+artist%3A${track.artist}&type=track&offset=0&limit=1`;
+            let newPromise = axios({
+                method: "get",
+                url: searchURI,
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-            })
-            .then((res) => {
-                if (!res.data.tracks) return [];
-                let tracks = res.data.tracks.items;
-                return tracks.map((track) => {
-                    return {
-                        id: track.id,
-                        name: track.name,
-                        artist: track.artists[0].name,
-                        album: track.album.name,
-                        art: track.album.images[0].url,
-                        uri: track.uri,
-                    };
-                });
+            });
+            axiosArray.push(newPromise);
+        });
+
+        return axios
+            .all(axiosArray)
+            .then(
+                axios.spread((...responses) => {
+                    responses.forEach((res) => {
+                        let track = res.data.tracks.items[0];
+                        trackInfo.push({
+                            id: track.id,
+                            name: track.name,
+                            artist: track.artists[0].name,
+                            album: track.album.name,
+                            art: track.album.images[0].url,
+                            uri: track.uri,
+                        });
+                    });
+                })
+            )
+            .then(() => {
+                return trackInfo;
             })
             .catch((err) => console.log(err));
     },
@@ -64,7 +77,7 @@ const Spotify = {
                 userID = res.data.id;
                 let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
                 let createPlaylistData = JSON.stringify({
-                    name: playlistName
+                    name: playlistName,
                 });
 
                 axios
@@ -77,17 +90,19 @@ const Spotify = {
                     .then(() => {
                         let addToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
                         let addToPlaylistData = JSON.stringify({
-                            uris: trackURIs
+                            uris: trackURIs,
                         });
-                        
+
                         axios
                             .post(addToPlaylistURI, addToPlaylistData, {
-                                headers: { Authorization: `Bearer ${userToken}`}
+                                headers: {
+                                    Authorization: `Bearer ${userToken}`,
+                                },
                             })
                             .then((res) => {
                                 console.log(res);
                                 return true;
-                            })
+                            });
                     });
             });
     },
