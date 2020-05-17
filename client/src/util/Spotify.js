@@ -50,8 +50,8 @@ const Spotify = {
             .catch((err) => console.log(err));
     },
 
-    savePlaylist(name, trackURIs) {
-        if (!name || !trackURIs) return;
+    savePlaylist(playlistName, trackURIs) {
+        if (!playlistName || !trackURIs) return;
         let userToken = accessToken;
         let userID;
         let playlistID;
@@ -62,19 +62,18 @@ const Spotify = {
             })
             .then((res) => {
                 userID = res.data.id;
-            })
-
-            .then(() => {
                 let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
-                fetch(createPlaylistURI, {
-                    method: "POST",
-                    headers: { Authorization: `Bearer ${userToken}` },
-                    body: JSON.stringify({
-                        name: name,
-                    }),
-                })
-                    .then((res) => res.json())
-                    .then((res) => (playlistID = res.id))
+                let createPlaylistData = JSON.stringify({
+                    name: playlistName
+                });
+
+                axios
+                    .post(createPlaylistURI, createPlaylistData, {
+                        headers: { Authorization: `Bearer ${userToken}` },
+                    })
+                    .then((res) => {
+                        playlistID = res.data.id;
+                    })
                     .then(() => {
                         let addItemToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
                         fetch(addItemToPlaylistURI, {
