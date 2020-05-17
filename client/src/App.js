@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
-import Logos from "./components/Logos";
 import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import {
@@ -19,6 +18,18 @@ const styles = (theme) => ({
     title: {
         textAlign: "center",
         marginBottom: 10,
+    },
+    searchContainer: {
+        marginBottom: 20,
+    },
+    imgContainer: {
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "80%",
+    },
+    image: {
+        width: "45%",
+        margin: "auto",
     },
 });
 
@@ -82,9 +93,7 @@ export class App extends Component {
                             >
                                 playlistener
                             </Typography>
-                            <Container
-                                maxWidth={"md"}
-                            >
+                            <Container className={classes.searchContainer} maxWidth={"md"}>
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
 
@@ -102,7 +111,13 @@ export class App extends Component {
                                     />
                                 </Container>
                             ) : (
-                                <Logos />
+                                <Container className={classes.imgContainer}>
+                                    <img
+                                        className={classes.image}
+                                        src="./images/info.png"
+                                        alt=""
+                                    />
+                                </Container>
                             )}
                         </div>
                     </div>
