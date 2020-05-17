@@ -7,7 +7,7 @@ let accessToken = undefined;
 let expiresIn = undefined;
 
 const Spotify = {
-    getAccessToken() {
+    spotifyGetAccessToken() {
         if (accessToken) {
             return accessToken;
         }
@@ -25,7 +25,7 @@ const Spotify = {
         }
     },
 
-    search(trackSearchInfo) {
+    spotifySearch(trackSearchInfo) {
         let axiosArray = [];
         let trackInfo = [];
         trackSearchInfo.forEach((track) => {
@@ -63,7 +63,7 @@ const Spotify = {
             .catch((err) => console.log(err));
     },
 
-    savePlaylist(playlistName, trackURIs) {
+    spotifyCreatePlaylist(playlistName, trackURIs) {
         if (!playlistName || !trackURIs) return;
         let userToken = accessToken;
         let userID;

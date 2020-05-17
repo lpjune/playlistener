@@ -7,11 +7,11 @@ const Util = {
         const tracksNotFound = [];
         let spotifyIds = [];
 
-        return Youtube.getPlaylist(playlistUrl).then((res) => {
+        return Youtube.youtubeGetPlaylist(playlistUrl).then((res) => {
             const playlistTitle = res.playlistTitle;
             const videoUrls = res.videoUrls;
 
-            return Youtube.getInfo(videoUrls)
+            return Youtube.youtubeGetVideos(videoUrls)
                 .then((res) => {
                     res.forEach((track) => {
                         if (track.name && track.artist) tracks.push(track);
@@ -24,7 +24,7 @@ const Util = {
                     console.log(tracks);
                     console.log(tracksNotFound);
 
-                    return Spotify.search(tracks)
+                    return Spotify.spotifySearch(tracks)
                         .then((res) => {
                             spotifyIds = res;
                             console.log(spotifyIds);

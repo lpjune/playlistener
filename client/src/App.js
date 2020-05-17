@@ -33,7 +33,7 @@ const styles = (theme) => ({
     },
 });
 
-Spotify.getAccessToken();
+Spotify.spotifyGetAccessToken();
 
 export class App extends Component {
     constructor(props) {
@@ -68,7 +68,7 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        Spotify.savePlaylist(this.state.playlistName, trackURIs);
+        Spotify.spotifyCreatePlaylist(this.state.playlistName, trackURIs);
         this.setState({
             playlistName: "New Playlist",
             playlistTracks: [],

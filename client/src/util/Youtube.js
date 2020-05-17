@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const Youtube = {
-    getPlaylist(playlistUrl) {
+    youtubeGetPlaylist(playlistUrl) {
         var reg = new RegExp("[&?]list=([a-z0-9_-]+)", "i");
         var playlistId = reg.exec(playlistUrl)[1];
         const apiUrl = "/api/playlist";
@@ -15,7 +15,7 @@ const Youtube = {
             .catch((err) => console.log(err));
     },
 
-    getInfo(videoUrl) {
+    youtubeGetVideos(videoUrl) {
         const apiUrl = "/api/info";
         let trackInfo = []
         let axiosArray = [];
