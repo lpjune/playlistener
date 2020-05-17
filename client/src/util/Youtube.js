@@ -15,15 +15,29 @@ const Youtube = {
             .catch((err) => console.log(err));
     },
 
-    getVideoInfo(videoUrl) {
+    getInfo(videoUrl) {
         const apiUrl = "/api/info";
+        let trackInfo = []
+        let axiosArray = [];
+        videoUrl.forEach((url) => {
+            let newPromise = axios({
+                method: "get",
+                url: apiUrl,
+                headers: { url: url },
+            });
+            axiosArray.push(newPromise);
+        });
+
         return axios
-            .get(apiUrl, {
-                headers: { url: videoUrl },
-            })
-            .then((res) => {
-                return res.data;
-            })
+            .all(axiosArray)
+            .then(
+                axios.spread((...responses) => {
+                    responses.forEach((res) => {
+                        trackInfo.push(res.data)
+                    });
+                })
+            )
+            .then(() => { return trackInfo })
             .catch((err) => console.log(err));
     },
 };

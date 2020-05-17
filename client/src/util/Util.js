@@ -12,16 +12,15 @@ const Util = {
 
         return Youtube.getPlaylist(playlistUrl).then((res) => {
             const videoUrls = res;
-            return parallel(
-                videoUrls.map((url) => {
-                    return () => {
-                        return Youtube.getVideoInfo(url).then((track) => {
-                            if (track.name && track.artist) tracks.push(track);
-                            else tracksNotFound.push(track.url);
-                        });
-                    };
-                }, batchSize)
-            )
+
+            return Youtube.getInfo(videoUrls)
+                .then((res) => {
+                    res.forEach((track) => {
+                        if (track.name && track.artist) tracks.push(track);
+                        else tracksNotFound.push(track);
+                    });
+                })
+
                 .then(() => {
                     console.log(tracks);
                     console.log(tracksNotFound);
