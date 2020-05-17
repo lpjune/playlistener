@@ -8,7 +8,8 @@ const Util = {
         let spotifyIds = [];
 
         return Youtube.getPlaylist(playlistUrl).then((res) => {
-            const videoUrls = res;
+            const playlistTitle = res.playlistTitle;
+            const videoUrls = res.videoUrls;
 
             return Youtube.getInfo(videoUrls)
                 .then((res) => {
@@ -19,11 +20,11 @@ const Util = {
                 })
 
                 .then(() => {
+                    console.log(playlistTitle);
                     console.log(tracks);
                     console.log(tracksNotFound);
 
                     return Spotify.search(tracks)
-
                         .then((res) => {
                             spotifyIds = res;
                             console.log(spotifyIds);

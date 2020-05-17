@@ -7,15 +7,18 @@ const app = express();
 app.get("/api/playlist", (req, res) => {
     const playlistId = req.headers.id.toString();
     const videoUrls = [];
+    let playlistTitle;
     ytpl(playlistId)
         .then((res) => {
+            playlistTitle = res.title;
             playlistInfo = res.items;
             playlistInfo.forEach(video => {
                 videoUrls.push(video.url);
             })
+            
         })
         .then(() => {
-            res.json(videoUrls);
+            res.json({playlistTitle, videoUrls});
         })
         .catch((err) => console.log(err));
 });
