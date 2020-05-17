@@ -19,8 +19,17 @@ const styles = (theme) => ({
         textAlign: "center",
         marginBottom: 10,
     },
-    search: {
+    searchContainer: {
         marginBottom: 20,
+    },
+    imgContainer: {
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "80%",
+    },
+    image: {
+        width: "45%",
+        margin: "auto",
     },
 });
 
@@ -31,45 +40,9 @@ export class App extends Component {
         super(props);
         this.state = {
             loading: false,
-            urlEntered: true,
+            urlEntered: false,
             playlistName: "New Playlist",
-            playlistTracks: [
-                {
-                    name: "Acid Wash Ocean",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-                {
-                    name: "Sweet Thang",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-                {
-                    name: "Teenage Blue",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-                {
-                    name: "Pretty Sexual",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-                {
-                    name: "Stranger Feelings",
-                    album: "Illuminaughty - EP",
-                    artist: "Dreamgirl",
-                    art:
-                        "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533",
-                },
-            ],
+            playlistTracks: [],
         };
     }
     findTracks = (playlistUrl) => {
@@ -120,14 +93,12 @@ export class App extends Component {
                             >
                                 playlistener
                             </Typography>
-                            <Container
-                                className={classes.search}
-                                maxWidth={"md"}
-                            >
+                            <Container className={classes.searchContainer} maxWidth={"md"}>
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
-                            <Container maxWidth={"sm"}>
-                                {this.state.urlEntered ? (
+
+                            {this.state.urlEntered ? (
+                                <Container maxWidth={"sm"}>
                                     <Playlist
                                         loading={this.state.loading}
                                         playlistName={this.state.playlistName}
@@ -138,10 +109,16 @@ export class App extends Component {
                                         onNameChange={this.updatePlaylistName}
                                         onSave={this.savePlaylist}
                                     />
-                                ) : (
-                                    <div></div>
-                                )}
-                            </Container>
+                                </Container>
+                            ) : (
+                                <Container className={classes.imgContainer}>
+                                    <img
+                                        className={classes.image}
+                                        src="./images/info.png"
+                                        alt=""
+                                    />
+                                </Container>
+                            )}
                         </div>
                     </div>
                 </Container>
