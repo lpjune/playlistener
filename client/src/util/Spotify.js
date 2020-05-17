@@ -75,14 +75,19 @@ const Spotify = {
                         playlistID = res.data.id;
                     })
                     .then(() => {
-                        let addItemToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
-                        fetch(addItemToPlaylistURI, {
-                            method: "POST",
-                            headers: { Authorization: `Bearer ${userToken}` },
-                            body: JSON.stringify({
-                                uris: trackURIs,
-                            }),
+                        let addToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
+                        let addToPlaylistData = JSON.stringify({
+                            uris: trackURIs
                         });
+                        
+                        axios
+                            .post(addToPlaylistURI, addToPlaylistData, {
+                                headers: { Authorization: `Bearer ${userToken}`}
+                            })
+                            .then((res) => {
+                                console.log(res);
+                                return true;
+                            })
                     });
             });
     },
