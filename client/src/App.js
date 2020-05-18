@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
-import Spotify from "./util/Spotify";
 import Util from "./util/Util";
 import {
     withStyles,
@@ -33,7 +32,7 @@ const styles = (theme) => ({
     },
 });
 
-Spotify.spotifyGetAccessToken();
+Util.spotifyGetAccessToken();
 
 export class App extends Component {
     constructor(props) {
@@ -68,7 +67,7 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        Spotify.spotifyCreatePlaylist(this.state.playlistName, trackURIs);
+        Util.spotifyCreatePlaylist(this.state.playlistName, trackURIs);
         this.setState({
             playlistName: "New Playlist",
             playlistTracks: [],
