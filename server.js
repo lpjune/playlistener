@@ -5,7 +5,7 @@ const ytpl = require("ytpl");
 const app = express();
 
 app.get("/api/playlist", (req, res) => {
-    const playlistId = req.headers.id.toString();
+    const playlistId = req.query.id.toString();
     const videoUrls = [];
     let playlistTitle;
     ytpl(playlistId)
@@ -24,7 +24,7 @@ app.get("/api/playlist", (req, res) => {
 });
 
 app.get("/api/info", (req, res) => {
-    const videoUrl = req.headers.url.toString();
+    const videoUrl = req.query.url.toString();
     ytdl.getInfo(videoUrl)
         .then((res) => {
             videoInfo = {

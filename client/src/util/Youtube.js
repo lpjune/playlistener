@@ -7,7 +7,7 @@ const Youtube = {
         const apiUrl = "/api/playlist";
         return axios
             .get(apiUrl, {
-                headers: { id: playlistId },
+                params: { id: playlistId },
             })
             .then((res) => {
                 return res.data;
@@ -15,15 +15,15 @@ const Youtube = {
             .catch((err) => console.log(err));
     },
 
-    youtubeGetVideos(videoUrl) {
+    youtubeGetVideos(videoUrls) {
         const apiUrl = "/api/info";
         let trackInfo = []
         let axiosArray = [];
-        videoUrl.forEach((url) => {
+        videoUrls.forEach((videoUrl) => {
             let newPromise = axios({
                 method: "get",
                 url: apiUrl,
-                headers: { url: url },
+                params: { url: videoUrl },
             });
             axiosArray.push(newPromise);
         });
