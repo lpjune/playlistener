@@ -66,6 +66,52 @@ app.get("/api/search", (req, res) => {
         .catch((err) => console.log(err));
 });
 
+app.get("/api/createplaylist", (req, result) => {
+    const USER_URI = "https://api.spotify.com/v1/me";
+    const userToken = req.query.token;
+    const playlistName = req.query.name;
+    const trackURIs = req.query.tracks;
+    let userID;
+    let playlistID;
+
+    axios
+        .get(USER_URI, {
+            headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((res) => {
+            userID = res.data.id;
+            let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
+            let createPlaylistData = JSON.stringify({
+                name: playlistName,
+            });
+
+            axios
+                .post(createPlaylistURI, createPlaylistData, {
+                    headers: { Authorization: `Bearer ${userToken}` },
+                })
+                .then((res) => {
+                    playlistID = res.data.id;
+                })
+                .then(() => {
+                    let addToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
+                    let addToPlaylistData = JSON.stringify({
+                        uris: trackURIs,
+                    });
+
+                    axios
+                        .post(addToPlaylistURI, addToPlaylistData, {
+                            headers: {
+                                Authorization: `Bearer ${userToken}`,
+                            },
+                        })
+                        .then(() => {
+                            result.status(200).send("Playlist created");
+                        })
+                        .catch((err) => console.log(err));
+                });
+        });
+});
+
 const port = 5000;
 
 app.listen(port, () => `Server running on port ${port}`);

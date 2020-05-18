@@ -1,7 +1,6 @@
 const axios = require("axios");
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_KEY;
 const REDIRECT_URI = "http://localhost:3000/";
-const USER_URI = "https://api.spotify.com/v1/me";
 var spotifyURI = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
 let accessToken = undefined;
 let expiresIn = undefined;
@@ -62,45 +61,15 @@ const Spotify = {
     spotifyCreatePlaylist(playlistName, trackURIs) {
         if (!playlistName || !trackURIs) return;
         let userToken = accessToken;
-        let userID;
-        let playlistID;
-
         axios
-            .get(USER_URI, {
-                headers: { Authorization: `Bearer ${userToken}` },
-            })
-            .then((res) => {
-                userID = res.data.id;
-                let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
-                let createPlaylistData = JSON.stringify({
+            .get("/api/createplaylist", {
+                params: {
                     name: playlistName,
-                });
-
-                axios
-                    .post(createPlaylistURI, createPlaylistData, {
-                        headers: { Authorization: `Bearer ${userToken}` },
-                    })
-                    .then((res) => {
-                        playlistID = res.data.id;
-                    })
-                    .then(() => {
-                        let addToPlaylistURI = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
-                        let addToPlaylistData = JSON.stringify({
-                            uris: trackURIs,
-                        });
-
-                        axios
-                            .post(addToPlaylistURI, addToPlaylistData, {
-                                headers: {
-                                    Authorization: `Bearer ${userToken}`,
-                                },
-                            })
-                            .then((res) => {
-                                console.log(res);
-                                return true;
-                            });
-                    });
-            });
+                    tracks: trackURIs,
+                    token: userToken,
+                },
+            })
+            .then((res) => console.log(res));
     },
 };
 
