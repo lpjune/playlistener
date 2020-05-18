@@ -29,15 +29,19 @@ const Spotify = {
         let axiosArray = [];
         let trackInfo = [];
         trackSearchInfo.forEach((track) => {
-            const searchURI = `https://api.spotify.com/v1/search?query=track%3A${track.name}+artist%3A${track.artist}&type=track&offset=0&limit=1`;
-            let newPromise = axios({
-                method: "get",
-                url: searchURI,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            axiosArray.push(newPromise);
+            if (track.name && track.artist) {
+                const searchURI = "/api/search";
+                let newPromise = axios({
+                    method: "get",
+                    url: searchURI,
+                    params: {
+                        name: track.name,
+                        artist: track.artist,
+                        token: accessToken,
+                    },
+                });
+                axiosArray.push(newPromise);
+            }
         });
 
         return axios
@@ -45,15 +49,7 @@ const Spotify = {
             .then(
                 axios.spread((...responses) => {
                     responses.forEach((res) => {
-                        let track = res.data.tracks.items[0];
-                        trackInfo.push({
-                            id: track.id,
-                            name: track.name,
-                            artist: track.artists[0].name,
-                            album: track.album.name,
-                            art: track.album.images[0].url,
-                            uri: track.uri,
-                        });
+                        trackInfo.push(res.data);
                     });
                 })
             )
