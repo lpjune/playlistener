@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
-import Util from "./util/Util";
+import * as Util from "./util/Util";
 import {
     withStyles,
     MuiThemeProvider,
     createMuiTheme,
     Container,
     Typography,
+    Button,
 } from "@material-ui/core";
 import themeFile from "./util/Theme";
 
@@ -32,17 +33,30 @@ const styles = (theme) => ({
     },
 });
 
-Util.spotifyGetAccessToken();
-
 export class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loggedIntoSpotify: false,
+            accessToken: null,
             loading: false,
             urlEntered: false,
             playlistName: "New Playlist",
             playlistTracks: [],
         };
+    }
+    componentDidMount() {
+        const accessToken = Util.checkUrlForSpotifyAccessToken();
+        accessToken
+            ? this.setState({
+                loggedInToSpotify: true,
+                accessToken: accessToken,
+            })
+            : this.setState({ loggedInToSpotify: false, accessToken: null });
+    }
+    login = () => {
+        Util.redirectUrlToSpotifyForLogin();
+        console.log("login");
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
@@ -93,6 +107,9 @@ export class App extends Component {
                                 maxWidth={"md"}
                             >
                                 <SearchBar onSearch={this.findTracks} />
+                                {!this.state.loggedIntoSpotify &&
+                                    <Button onClick={this.login}>Login to Spotify</Button>
+                                }
                             </Container>
 
                             {this.state.urlEntered ? (
