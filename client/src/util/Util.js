@@ -1,7 +1,4 @@
 import Spotify from "spotify-web-api-js";
-import uniq from "lodash";
-import flatten from "lodash";
-import chunk from "lodash";
 
 const spotifyApi = new Spotify();
 const axios = require("axios");
@@ -42,12 +39,10 @@ export function checkUrlForSpotifyAccessToken() {
 }
 
 function getHashParams() {
-    //helper function to parse the query string that spotify sends back when you log in
     var hashParams = {};
     var e,
         r = /([^&;=]+)=?([^&;]*)/g,
         q = window.location.hash.substring(1);
-    // eslint-disable-next-line
     while ((e = r.exec(q))) {
         hashParams[e[1]] = decodeURIComponent(e[2]);
     }
@@ -55,8 +50,6 @@ function getHashParams() {
 }
 
 export function setAccessToken(accessToken) {
-    //since using spotifyApi as helper library you can set the access code once
-    //you get it and then not have to include it in every request
     spotifyApi.setAccessToken(accessToken);
     globalAccessToken = accessToken;
 }
@@ -125,21 +118,7 @@ export function youtubeGetVideos(videoUrls) {
  * SPOTIFY
  *
  */
-// export function spotifyGetAccessToken() {
-//     if (accessToken) {
-//         return accessToken;
-//     }
-//     const urlAccessToken = window.location.href.match(/access_token=([^&]*)/);
-//     const urlExpiresIn = window.location.href.match(/expires_in=([^&]*)/);
-//     if (urlAccessToken && urlExpiresIn) {
-//         accessToken = urlAccessToken[1];
-//         expiresIn = urlExpiresIn[1];
-//         window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
-//         window.history.pushState("Access Token", null, "/");
-//     } else {
-//         window.location = spotifyURI;
-//     }
-// }
+
 
 export function spotifySearch(trackSearchInfo) {
     let axiosArray = [];

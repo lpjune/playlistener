@@ -9,6 +9,7 @@ import {
     Container,
     Typography,
     Button,
+    Link,
 } from "@material-ui/core";
 import themeFile from "./util/Theme";
 
@@ -47,7 +48,15 @@ export class App extends Component {
     }
     componentDidMount() {
         const accessToken = Util.checkUrlForSpotifyAccessToken();
-		accessToken ? this.setState({loggedIntoSpotify: true, accessToken: accessToken}) : this.setState({loggedIntoSpotify: false, accessToken: null});
+        if (accessToken) {
+            Util.setAccessToken(accessToken);
+            this.setState({
+                loggedIntoSpotify: true,
+                accessToken: accessToken,
+            });
+        } else {
+            this.setState({ loggedIntoSpotify: false, accessToken: null });
+        }
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
@@ -98,10 +107,14 @@ export class App extends Component {
                                 maxWidth={"md"}
                             >
                                 <SearchBar onSearch={this.findTracks} />
-                                {!this.state.loggedIntoSpotify &&
-                                    <a href={Util.redirectUrlToSpotifyForLogin()}><button>login</button></a>
-                                }
                             </Container>
+                            {!this.state.loggedIntoSpotify && (
+                                <Link href={Util.redirectUrlToSpotifyForLogin()} style={{textDecoration: 'none'}}>
+                                    <Button variant="contained" color="default">
+                                        login with spotify
+                                    </Button>
+                                </Link>
+                            )}
 
                             {this.state.urlEntered ? (
                                 <Container maxWidth={"sm"}>
