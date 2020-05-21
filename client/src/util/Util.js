@@ -1,144 +1,164 @@
 const axios = require("axios");
-const CLIENT_ID = process.env.REACT_APP_SPOTIFY_KEY;
-const REDIRECT_URI = "http://localhost:3000/";
-var spotifyURI = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
-let accessToken = undefined;
-let expiresIn = undefined;
 
-const Util = {
+let globalAccessToken = "";
 
-    /**
-     * PROMISE CHAIN
-     * 
-     */
-    getTracks(playlistUrl) {
-        return this.youtubeGetPlaylist(playlistUrl)
-            .then((res) => {
-                return this.youtubeGetVideos(res.videoUrls);
+export function redirectUrlToSpotifyForLogin() {
+    const CLIENT_ID = process.env.REACT_APP_SPOTIFY_KEY;
+    const REDIRECT_URI = "http://localhost:3000/";
+    const scopes = [
+        "user-modify-playback-state",
+        "user-library-read",
+        "user-library-modify",
+        "playlist-read-private",
+        "playlist-modify-public",
+        "playlist-modify-private",
+    ];
+    return (
+        "https://accounts.spotify.com/authorize?client_id=" +
+        CLIENT_ID +
+        "&redirect_uri=" +
+        encodeURIComponent(REDIRECT_URI) +
+        "&scope=" +
+        encodeURIComponent(scopes.join(" ")) +
+        "&response_type=token"
+    );
+}
+
+export function checkUrlForSpotifyAccessToken() {
+    const params = getHashParams();
+    const accessToken = params.access_token;
+    if (!accessToken) {
+        return false;
+    } else {
+        return accessToken;
+    }
+}
+
+function getHashParams() {
+    var hashParams = {};
+    var e,
+        r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+    while ((e = r.exec(q))) {
+        hashParams[e[1]] = decodeURIComponent(e[2]);
+    }
+    return hashParams;
+}
+
+export function setAccessToken(accessToken) {
+    globalAccessToken = accessToken;
+}
+
+/**
+ * PROMISE CHAIN
+ *
+ */
+export function getTracks(playlistUrl) {
+    return youtubeGetPlaylist(playlistUrl)
+        .then((res) => {
+            return youtubeGetVideos(res.videoUrls);
+        })
+        .then((res) => {
+            return spotifySearch(res);
+        });
+}
+
+/**
+ * YOUTUBE
+ *
+ */
+export function youtubeGetPlaylist(playlistUrl) {
+    var reg = new RegExp("[&?]list=([a-z0-9_-]+)", "i");
+    var playlistId = reg.exec(playlistUrl)[1];
+    const apiUrl = "/api/playlist";
+    return axios
+        .get(apiUrl, {
+            params: { id: playlistId },
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => console.log(err));
+}
+
+export function youtubeGetVideos(videoUrls) {
+    const apiUrl = "/api/info";
+    let trackInfo = [];
+    let axiosArray = [];
+    videoUrls.forEach((videoUrl) => {
+        let newPromise = axios({
+            method: "get",
+            url: apiUrl,
+            params: { url: videoUrl },
+        });
+        axiosArray.push(newPromise);
+    });
+
+    return axios
+        .all(axiosArray)
+        .then(
+            axios.spread((...responses) => {
+                responses.forEach((res) => {
+                    trackInfo.push(res.data);
+                });
             })
-            .then((res) => {
-                return this.spotifySearch(res);
-            });
-    },
+        )
+        .then(() => {
+            return trackInfo;
+        })
+        .catch((err) => console.log(err));
+}
+
+/**
+ * SPOTIFY
+ *
+ */
 
 
-    /**
-     * YOUTUBE
-     * 
-     */
-    youtubeGetPlaylist(playlistUrl) {
-        var reg = new RegExp("[&?]list=([a-z0-9_-]+)", "i");
-        var playlistId = reg.exec(playlistUrl)[1];
-        const apiUrl = "/api/playlist";
-        return axios
-            .get(apiUrl, {
-                params: { id: playlistId },
-            })
-            .then((res) => {
-                return res.data;
-            })
-            .catch((err) => console.log(err));
-    },
-
-    youtubeGetVideos(videoUrls) {
-        const apiUrl = "/api/info";
-        let trackInfo = [];
-        let axiosArray = [];
-        videoUrls.forEach((videoUrl) => {
+export function spotifySearch(trackSearchInfo) {
+    let axiosArray = [];
+    let trackInfo = [];
+    trackSearchInfo.forEach((track) => {
+        if (track.name && track.artist) {
+            const searchURI = "/api/search";
             let newPromise = axios({
                 method: "get",
-                url: apiUrl,
-                params: { url: videoUrl },
+                url: searchURI,
+                params: {
+                    name: track.name,
+                    artist: track.artist,
+                    token: globalAccessToken,
+                },
             });
             axiosArray.push(newPromise);
-        });
-
-        return axios
-            .all(axiosArray)
-            .then(
-                axios.spread((...responses) => {
-                    responses.forEach((res) => {
-                        trackInfo.push(res.data);
-                    });
-                })
-            )
-            .then(() => {
-                return trackInfo;
-            })
-            .catch((err) => console.log(err));
-    },
-
-
-    /**
-     * SPOTIFY
-     * 
-     */
-    spotifyGetAccessToken() {
-        if (accessToken) {
-            return accessToken;
         }
-        const urlAccessToken = window.location.href.match(
-            /access_token=([^&]*)/
-        );
-        const urlExpiresIn = window.location.href.match(/expires_in=([^&]*)/);
-        if (urlAccessToken && urlExpiresIn) {
-            accessToken = urlAccessToken[1];
-            expiresIn = urlExpiresIn[1];
-            window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
-            window.history.pushState("Access Token", null, "/");
-        } else {
-            window.location = spotifyURI;
-        }
-    },
+    });
 
-    spotifySearch(trackSearchInfo) {
-        let axiosArray = [];
-        let trackInfo = [];
-        trackSearchInfo.forEach((track) => {
-            if (track.name && track.artist) {
-                const searchURI = "/api/search";
-                let newPromise = axios({
-                    method: "get",
-                    url: searchURI,
-                    params: {
-                        name: track.name,
-                        artist: track.artist,
-                        token: accessToken,
-                    },
+    return axios
+        .all(axiosArray)
+        .then(
+            axios.spread((...responses) => {
+                responses.forEach((res) => {
+                    trackInfo.push(res.data);
                 });
-                axiosArray.push(newPromise);
-            }
-        });
-
-        return axios
-            .all(axiosArray)
-            .then(
-                axios.spread((...responses) => {
-                    responses.forEach((res) => {
-                        trackInfo.push(res.data);
-                    });
-                })
-            )
-            .then(() => {
-                return trackInfo;
             })
-            .catch((err) => console.log(err));
-    },
+        )
+        .then(() => {
+            return trackInfo;
+        })
+        .catch((err) => console.log(err));
+}
 
-    spotifyCreatePlaylist(playlistName, trackURIs) {
-        if (!playlistName || !trackURIs) return;
-        let userToken = accessToken;
-        axios
-            .get("/api/createplaylist", {
-                params: {
-                    name: playlistName,
-                    tracks: trackURIs,
-                    token: userToken,
-                },
-            })
-            .then((res) => console.log(res));
-    },
-
-};
-
-export default Util;
+export function spotifyCreatePlaylist(playlistName, trackURIs) {
+    if (!playlistName || !trackURIs) return;
+    let userToken = globalAccessToken;
+    axios
+        .get("/api/createplaylist", {
+            params: {
+                name: playlistName,
+                tracks: trackURIs,
+                token: userToken,
+            },
+        })
+        .then((res) => console.log(res));
+}
