@@ -47,16 +47,7 @@ export class App extends Component {
     }
     componentDidMount() {
         const accessToken = Util.checkUrlForSpotifyAccessToken();
-        accessToken
-            ? this.setState({
-                loggedInToSpotify: true,
-                accessToken: accessToken,
-            })
-            : this.setState({ loggedInToSpotify: false, accessToken: null });
-    }
-    login = () => {
-        Util.redirectUrlToSpotifyForLogin();
-        console.log("login");
+		accessToken ? this.setState({loggedIntoSpotify: true, accessToken: accessToken}) : this.setState({loggedIntoSpotify: false, accessToken: null});
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
@@ -108,7 +99,7 @@ export class App extends Component {
                             >
                                 <SearchBar onSearch={this.findTracks} />
                                 {!this.state.loggedIntoSpotify &&
-                                    <Button onClick={this.login}>Login to Spotify</Button>
+                                    <a href={Util.redirectUrlToSpotifyForLogin()}><button>login</button></a>
                                 }
                             </Container>
 
