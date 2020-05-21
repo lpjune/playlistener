@@ -1,8 +1,4 @@
-import Spotify from "spotify-web-api-js";
-
-const spotifyApi = new Spotify();
 const axios = require("axios");
-
 
 let globalAccessToken = "";
 
@@ -50,7 +46,6 @@ function getHashParams() {
 }
 
 export function setAccessToken(accessToken) {
-    spotifyApi.setAccessToken(accessToken);
     globalAccessToken = accessToken;
 }
 
