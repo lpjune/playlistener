@@ -1,5 +1,5 @@
 import React from "react";
-import * as Util from "../util/Util";
+import { redirectUrlToSpotifyForLogin } from "../util/Util";
 import { withStyles, Container, Button, Link } from "@material-ui/core";
 
 const styles = (theme) => ({
@@ -15,7 +15,7 @@ const SpotifyLoginButton = (props) => {
     return (
         <Container maxWidth={"md"} className={classes.button}>
             <Link
-                href={Util.redirectUrlToSpotifyForLogin()}
+                href={redirectUrlToSpotifyForLogin()}
                 style={{ textDecoration: "none" }}
             >
                 <Button

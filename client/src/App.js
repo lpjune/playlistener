@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
 import SpotifyLoginButton from "./components/SpotifyLoginButton";
-import * as Util from "./util/Util";
+import { checkUrlForSpotifyAccessToken, setAccessToken, getTracks, spotifyCreatePlaylist } from "./util/Util";
 import {
     withStyles,
     MuiThemeProvider,
@@ -46,9 +46,9 @@ export class App extends Component {
         };
     }
     componentDidMount() {
-        const accessToken = Util.checkUrlForSpotifyAccessToken();
+        const accessToken = checkUrlForSpotifyAccessToken();
         if (accessToken) {
-            Util.setAccessToken(accessToken);
+            setAccessToken(accessToken);
             this.setState({
                 loggedIntoSpotify: true,
                 accessToken: accessToken,
@@ -59,7 +59,7 @@ export class App extends Component {
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
-        return Util.getTracks(playlistUrl).then((res) => {
+        return getTracks(playlistUrl).then((res) => {
             this.setState({
                 playlistTracks: res,
                 loading: false,
@@ -80,7 +80,7 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        Util.spotifyCreatePlaylist(this.state.playlistName, trackURIs);
+        spotifyCreatePlaylist(this.state.playlistName, trackURIs);
         this.setState({
             playlistName: "New Playlist",
             playlistTracks: [],
