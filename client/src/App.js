@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
+import SpotifyLoginButton from "./components/SpotifyLoginButton";
 import * as Util from "./util/Util";
 import {
     withStyles,
@@ -8,8 +9,6 @@ import {
     createMuiTheme,
     Container,
     Typography,
-    Button,
-    Link,
 } from "@material-ui/core";
 import themeFile from "./util/Theme";
 
@@ -109,13 +108,7 @@ export class App extends Component {
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
                             {!this.state.loggedIntoSpotify && (
-                                <Container maxWidth={"md"} className={classes.title}>
-                                <Link href={Util.redirectUrlToSpotifyForLogin()} style={{textDecoration: 'none'}}>
-                                    <Button variant="contained" color="default" startIcon={<img src="./images/Spotify_Icon_Black.png" width="40"/>}>
-                                        login with spotify
-                                    </Button>
-                                </Link>
-                                </Container>
+                                <SpotifyLoginButton />
                             )}
 
                             {this.state.urlEntered ? (
