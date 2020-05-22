@@ -105,7 +105,7 @@ export class App extends Component {
                                 className={classes.searchContainer}
                                 maxWidth={"md"}
                             >
-                                <SearchBar onSearch={this.findTracks} />
+                                <SearchBar onSearch={this.findTracks} loggedIntoSpotify={this.state.loggedIntoSpotify}/>
                             </Container>
                             {!this.state.loggedIntoSpotify && (
                                 <SpotifyLoginButton />
