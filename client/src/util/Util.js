@@ -76,6 +76,8 @@ export function youtubeGetPlaylist(playlistUrl) {
             params: { id: playlistId },
         })
         .then((res) => {
+            console.log("youtubeGetPlaylist:");
+            console.log(res.data);
             return res.data;
         })
         .catch((err) => console.log(err));
@@ -104,6 +106,8 @@ export function youtubeGetVideos(videoUrls) {
             })
         )
         .then(() => {
+            console.log("youtubeGetVideos:");
+            console.log(trackInfo);
             return trackInfo;
         })
         .catch((err) => console.log(err));
@@ -113,7 +117,6 @@ export function youtubeGetVideos(videoUrls) {
  * SPOTIFY
  *
  */
-
 
 export function spotifySearch(trackSearchInfo) {
     let axiosArray = [];
@@ -144,6 +147,8 @@ export function spotifySearch(trackSearchInfo) {
             })
         )
         .then(() => {
+            console.log("spotifySearch:");
+            console.log(trackInfo);
             return trackInfo;
         })
         .catch((err) => console.log(err));
@@ -152,7 +157,7 @@ export function spotifySearch(trackSearchInfo) {
 export function spotifyCreatePlaylist(playlistName, trackURIs) {
     if (!playlistName || !trackURIs) return;
     let userToken = globalAccessToken;
-    axios
+    return axios
         .get("/api/createplaylist", {
             params: {
                 name: playlistName,
@@ -160,5 +165,13 @@ export function spotifyCreatePlaylist(playlistName, trackURIs) {
                 token: userToken,
             },
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+            if (res.status === 201) {
+                console.log("spotifyCreatePlaylist:");
+                console.log(res.data);
+                return res.data;
+            } else {
+                return false;
+            }
+        });
 }

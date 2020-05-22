@@ -48,6 +48,7 @@ export class App extends Component {
             urlEntered: false,
             playlistName: "New Playlist",
             playlistTracks: [],
+            spotifyPlaylistUrl: "",
         };
     }
     componentDidMount() {
@@ -83,6 +84,7 @@ export class App extends Component {
             playlistName: "New Playlist",
             playlistTracks: [],
             urlEntered: false,
+            spotifyPlaylistUrl: "",
         });
     };
     updatePlaylistName = (name) => {
@@ -92,8 +94,13 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        spotifyCreatePlaylist(this.state.playlistName, trackURIs);
-        this.clearPlaylist();
+        spotifyCreatePlaylist(this.state.playlistName, trackURIs).then(
+            (res) => {
+                let url = `http://open.spotify.com/user/spotify/playlist/${res}`;
+                this.setState({ spotifyPlaylistUrl: url });
+            }
+        );
+        // this.clearPlaylist();
     };
     render() {
         const { classes } = this.props;

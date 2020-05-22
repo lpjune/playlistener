@@ -105,7 +105,7 @@ app.get("/api/createplaylist", (req, result) => {
                             },
                         })
                         .then(() => {
-                            result.status(200).send("Playlist created");
+                            result.status(201).send(playlistID);
                         })
                         .catch((err) => console.log(err));
                 });
