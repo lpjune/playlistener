@@ -109,11 +109,13 @@ export class App extends Component {
                                 <SearchBar onSearch={this.findTracks} />
                             </Container>
                             {!this.state.loggedIntoSpotify && (
+                                <Container maxWidth={"md"} className={classes.title}>
                                 <Link href={Util.redirectUrlToSpotifyForLogin()} style={{textDecoration: 'none'}}>
-                                    <Button variant="contained" color="default">
+                                    <Button variant="contained" color="default" startIcon={<img src="./images/Spotify_Icon_Black.png" width="40"/>}>
                                         login with spotify
                                     </Button>
                                 </Link>
+                                </Container>
                             )}
 
                             {this.state.urlEntered ? (
