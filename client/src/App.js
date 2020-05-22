@@ -101,55 +101,45 @@ export class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Container>
-                    <div>
-                        <div>
-                            <Typography
-                                className={classes.title}
-                                color="textPrimary"
-                                variant="h4"
-                            >
-                                playlistener
-                            </Typography>
-                            <Container
-                                className={classes.searchContainer}
-                                maxWidth={"md"}
-                            >
-                                <SearchBar
-                                    onSearch={this.findTracks}
-                                    loggedIntoSpotify={
-                                        this.state.loggedIntoSpotify
-                                    }
-                                />
-                            </Container>
-                            {!this.state.loggedIntoSpotify && (
-                                <SpotifyLoginButton />
-                            )}
+                    <Typography
+                        className={classes.title}
+                        color="textPrimary"
+                        variant="h4"
+                    >
+                        playlistener
+                    </Typography>
+                    <Container
+                        className={classes.searchContainer}
+                        maxWidth={"md"}
+                    >
+                        <SearchBar
+                            onSearch={this.findTracks}
+                            loggedIntoSpotify={this.state.loggedIntoSpotify}
+                        />
+                    </Container>
+                    {!this.state.loggedIntoSpotify && <SpotifyLoginButton />}
 
-                            {this.state.urlEntered ? (
-                                <Container maxWidth={"sm"}>
-                                    <Playlist
-                                        loading={this.state.loading}
-                                        playlistName={this.state.playlistName}
-                                        playlistTracks={
-                                            this.state.playlistTracks
-                                        }
-                                        onRemove={this.removeTrack}
-                                        onNameChange={this.updatePlaylistName}
-                                        onSave={this.savePlaylist}
-                                        onClear={this.clearPlaylist}
-                                    />
-                                </Container>
-                            ) : (
-                                <Container className={classes.imgContainer}>
-                                    <img
-                                        className={classes.image}
-                                        src="./images/info.png"
-                                        alt=""
-                                    />
-                                </Container>
-                            )}
-                        </div>
-                    </div>
+                    {this.state.urlEntered ? (
+                        <Container maxWidth={"sm"}>
+                            <Playlist
+                                loading={this.state.loading}
+                                playlistName={this.state.playlistName}
+                                playlistTracks={this.state.playlistTracks}
+                                onRemove={this.removeTrack}
+                                onNameChange={this.updatePlaylistName}
+                                onSave={this.savePlaylist}
+                                onClear={this.clearPlaylist}
+                            />
+                        </Container>
+                    ) : (
+                        <Container className={classes.imgContainer}>
+                            <img
+                                className={classes.image}
+                                src="./images/info.png"
+                                alt=""
+                            />
+                        </Container>
+                    )}
                 </Container>
             </MuiThemeProvider>
         );
