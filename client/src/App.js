@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
 import SpotifyLoginButton from "./components/SpotifyLoginButton";
-import { checkUrlForSpotifyAccessToken, setAccessToken, getTracks, spotifyCreatePlaylist } from "./util/Util";
+import {
+    checkUrlForSpotifyAccessToken,
+    setAccessToken,
+    getTracks,
+    spotifyCreatePlaylist,
+} from "./util/Util";
 import {
     withStyles,
     MuiThemeProvider,
@@ -73,6 +78,13 @@ export class App extends Component {
             ),
         });
     };
+    clearPlaylist = () => {
+        this.setState({
+            playlistName: "New Playlist",
+            playlistTracks: [],
+            urlEntered: false,
+        });
+    };
     updatePlaylistName = (name) => {
         this.setState({ playlistName: name });
     };
@@ -81,10 +93,7 @@ export class App extends Component {
             (playlistTrack) => playlistTrack.uri
         );
         spotifyCreatePlaylist(this.state.playlistName, trackURIs);
-        this.setState({
-            playlistName: "New Playlist",
-            playlistTracks: [],
-        });
+        this.clearPlaylist();
     };
     render() {
         const { classes } = this.props;
@@ -105,7 +114,12 @@ export class App extends Component {
                                 className={classes.searchContainer}
                                 maxWidth={"md"}
                             >
-                                <SearchBar onSearch={this.findTracks} loggedIntoSpotify={this.state.loggedIntoSpotify}/>
+                                <SearchBar
+                                    onSearch={this.findTracks}
+                                    loggedIntoSpotify={
+                                        this.state.loggedIntoSpotify
+                                    }
+                                />
                             </Container>
                             {!this.state.loggedIntoSpotify && (
                                 <SpotifyLoginButton />
@@ -122,6 +136,7 @@ export class App extends Component {
                                         onRemove={this.removeTrack}
                                         onNameChange={this.updatePlaylistName}
                                         onSave={this.savePlaylist}
+                                        onClear={this.clearPlaylist}
                                     />
                                 </Container>
                             ) : (

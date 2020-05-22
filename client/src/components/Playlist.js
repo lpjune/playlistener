@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import TrackList from "./TrackList";
 import PlaylistSkeleton from "./PlaylistSkeleton";
+import { withStyles, TextField, Button } from "@material-ui/core";
 import {
-    withStyles,
-    TextField,
-    Button,
-} from "@material-ui/core";
+    SaveAlt as SaveIcon,
+    DeleteOutline as DeleteIcon,
+} from "@material-ui/icons";
 
 const styles = (theme) => ({
     ...theme.spreadThis,
@@ -16,7 +16,11 @@ const styles = (theme) => ({
         display: "flex",
         marginBottom: 10,
     },
-    saveButton: {
+    buttonDiv: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginLeft: "10%",
+        marginRight: "10%",
         marginBottom: 20,
     },
 });
@@ -37,14 +41,23 @@ export class Playlist extends Component {
                     value={this.props.playlistName}
                     onChange={this.handleNameChange}
                 ></TextField>
-                <Button
-                    className={classes.saveButton}
-                    onClick={this.props.onSave}
-                    variant="contained"
-                    color="default"
-                >
-                    SAVE TO SPOTIFY
-                </Button>
+                <div className={classes.buttonDiv}>
+                    <Button
+                        onClick={this.props.onSave}
+                        variant="contained"
+                        color="default"
+                        startIcon={<SaveIcon />}
+                    >
+                        SAVE TO SPOTIFY
+                    </Button>
+                    <Button
+                        onClick={this.props.onClear}
+                        variant="contained"
+                        color="default"
+                    >
+                        <DeleteIcon />
+                    </Button>
+                </div>
                 <TrackList
                     tracks={this.props.playlistTracks}
                     onRemove={this.props.onRemove}

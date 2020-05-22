@@ -10,8 +10,11 @@ const styles = (theme) => ({
     name: {
         marginBottom: 10,
     },
-    saveButton: {
-        margin: "auto",
+    buttonDiv: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginLeft: "10%",
+        marginRight: "10%",
         marginBottom: 20,
     },
     card: {
@@ -35,14 +38,22 @@ export class PlaylistSkeleton extends Component {
                     animation="wave"
                     height={32}
                 />
+                <div className={classes.buttonDiv}>
                 <Skeleton
-                    className={classes.saveButton}
                     variant="rect"
                     animation="wave"
                     width={161}
                     height={36}
                     component="div"
                 />
+                <Skeleton
+                    variant="rect"
+                    animation="wave"
+                    width={64}
+                    height={36}
+                    component="div"
+                />
+                </div>
                 <Skeleton
                     className={classes.card}
                     variant="rect"
