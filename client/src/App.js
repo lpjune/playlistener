@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
 import SpotifyLoginButton from "./components/SpotifyLoginButton";
+import SuccessDialog from "./components/SuccessDialog";
 import {
     checkUrlForSpotifyAccessToken,
     setAccessToken,
@@ -49,6 +50,7 @@ export class App extends Component {
             playlistName: "New Playlist",
             playlistTracks: [],
             spotifyPlaylistUrl: "",
+            successDialogOpen: false,
         };
     }
     componentDidMount() {
@@ -98,9 +100,16 @@ export class App extends Component {
             (res) => {
                 let url = `http://open.spotify.com/user/spotify/playlist/${res}`;
                 this.setState({ spotifyPlaylistUrl: url });
+                this.openSuccessDialog();
             }
         );
-        // this.clearPlaylist();
+    };
+    openSuccessDialog = () => {
+        this.setState({ successDialogOpen: true });
+    };
+    closeSuccessDialog = () => {
+        this.setState({ successDialogOpen: false });
+        this.clearPlaylist();
     };
     render() {
         const { classes } = this.props;
@@ -125,6 +134,12 @@ export class App extends Component {
                         />
                     </Container>
                     {!this.state.loggedIntoSpotify && <SpotifyLoginButton />}
+
+                    <SuccessDialog
+                        url={this.state.spotifyPlaylistUrl}
+                        open={this.state.successDialogOpen}
+                        onClose={this.closeSuccessDialog}
+                    />
 
                     {this.state.urlEntered ? (
                         <Container maxWidth={"sm"}>
