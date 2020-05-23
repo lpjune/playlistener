@@ -31,8 +31,7 @@ const SearchBar = (props) => {
 
     const handleClick = (event) => {
         event.preventDefault();
-        const urlInput = document.getElementById("urlInput");
-        search(urlInput.value);
+        search(props.url);
     };
 
     const handleDisabledClick = (event) => {
@@ -47,9 +46,10 @@ const SearchBar = (props) => {
         <div className={classes.searchDiv}>
             <TextField
                 fullWidth
+                value={props.url}
+                onChange={props.onChange}
                 variant="outlined"
                 placeholder="Enter a Youtube Playlist URL"
-                id="urlInput"
             ></TextField>
             <Button
                 className={classes.searchButton}
@@ -66,9 +66,9 @@ const SearchBar = (props) => {
             <TextField
                 disabled
                 fullWidth
+                value={props.url}
                 variant="outlined"
                 placeholder="Please login with Spotify"
-                id="urlInput"
             ></TextField>
             <Button
                 onClick={handleDisabledClick}

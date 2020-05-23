@@ -49,6 +49,7 @@ export class App extends Component {
             urlEntered: false,
             playlistName: "New Playlist",
             playlistTracks: [],
+            youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
             successDialogOpen: false,
         };
@@ -81,11 +82,15 @@ export class App extends Component {
             ),
         });
     };
+    handleInputChange = (event) => {
+        this.setState({ youtubePlaylistUrl: event.target.value });
+    };
     clearPlaylist = () => {
         this.setState({
             playlistName: "New Playlist",
             playlistTracks: [],
             urlEntered: false,
+            youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
         });
     };
@@ -129,6 +134,8 @@ export class App extends Component {
                         maxWidth={"md"}
                     >
                         <SearchBar
+                            url={this.state.youtubePlaylistUrl}
+                            onChange={this.handleInputChange}
                             onSearch={this.findTracks}
                             loggedIntoSpotify={this.state.loggedIntoSpotify}
                         />
