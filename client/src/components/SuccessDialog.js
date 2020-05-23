@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    withStyles,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -10,16 +9,8 @@ import {
     Button,
 } from "@material-ui/core";
 
-const styles = (theme) => ({
-    ...theme.spreadThis,
-    button: {
-        textAlign: "center",
-        marginBottom: 10,
-    },
-});
-
 const SuccessDialog = (props) => {
-    const { classes, open, onClose, url } = props;
+    const { open, onClose, url } = props;
     const handleClose = () => {
         onClose();
     };
@@ -41,4 +32,4 @@ const SuccessDialog = (props) => {
     );
 };
 
-export default withStyles(styles)(SuccessDialog);
+export default SuccessDialog;

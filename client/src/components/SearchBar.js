@@ -22,16 +22,16 @@ const styles = (theme) => ({
 });
 
 const SearchBar = (props) => {
-    const { classes } = props;
+    const { classes, loggedIntoSpotify, onSearch, url, onChange } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
 
-    const search = (term) => props.onSearch(term);
+    const search = (term) => onSearch(term);
 
     const handleClick = (event) => {
         event.preventDefault();
-        search(props.url);
+        search(url);
     };
 
     const handleDisabledClick = (event) => {
@@ -42,12 +42,12 @@ const SearchBar = (props) => {
         setAnchorEl(null);
     };
 
-    let searchbarMarkup = props.loggedIntoSpotify ? (
+    let searchbarMarkup = loggedIntoSpotify ? (
         <div className={classes.searchDiv}>
             <TextField
                 fullWidth
-                value={props.url}
-                onChange={props.onChange}
+                value={url}
+                onChange={onChange}
                 variant="outlined"
                 placeholder="Enter a Youtube Playlist URL"
             ></TextField>
@@ -66,7 +66,7 @@ const SearchBar = (props) => {
             <TextField
                 disabled
                 fullWidth
-                value={props.url}
+                value={url}
                 variant="outlined"
                 placeholder="Please login with Spotify"
             ></TextField>
