@@ -3,6 +3,11 @@ import {
     withStyles,
     Dialog,
     DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Link,
+    Button,
 } from "@material-ui/core";
 
 const styles = (theme) => ({
@@ -20,8 +25,18 @@ const SuccessDialog = (props) => {
     };
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Spotify playlist created!</DialogTitle>
-            <a href={url} target="_blank">View playlist</a>
+            <DialogTitle>Success!</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Your playlist has been added to your Spotify account.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+                <Link href={url} target="_blank">
+                    <Button>View playlist</Button>
+                </Link>
+            </DialogActions>
         </Dialog>
     );
 };
