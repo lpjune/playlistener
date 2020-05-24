@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import TrackList from "./TrackList";
 import PlaylistSkeleton from "./PlaylistSkeleton";
-import { withStyles, TextField, Button } from "@material-ui/core";
+import { withStyles, TextField, Button, IconButton } from "@material-ui/core";
 import {
     SaveAlt as SaveIcon,
     DeleteOutline as DeleteIcon,
+    Clear as ClearIcon,
 } from "@material-ui/icons";
 
 const styles = (theme) => ({
@@ -12,7 +13,7 @@ const styles = (theme) => ({
     playlist: {
         textAlign: "center",
     },
-    name: {
+    textField: {
         display: "flex",
         marginBottom: 10,
     },
@@ -26,8 +27,29 @@ const styles = (theme) => ({
 });
 
 export class Playlist extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: false,
+            helperText: "",
+        };
+    }
+    handleClick = () => {
+        if (!this.state.error) {
+            this.props.onSave();
+        }
+    };
     handleNameChange = (event) => {
         this.props.onNameChange(event.target.value);
+        if (event.target.value.length > 0) {
+            this.setState({ error: false, helperText: "" });
+        } else {
+            this.setState({ error: true, helperText: "Enter a title" });
+        }
+    };
+    handleNameClear = () => {
+        this.props.onNameChange("");
+        this.setState({ error: true, helperText: "Enter a title" });
     };
 
     render() {
@@ -36,14 +58,29 @@ export class Playlist extends Component {
         let playlistMarkup = !this.props.loading ? (
             <div className={classes.playlist}>
                 <TextField
-                    className={classes.name}
-                    inputProps={{ style: { textAlign: "center" } }}
+                    className={classes.textField}
+                    placeholder="Enter a playlist title"
                     value={this.props.playlistName}
                     onChange={this.handleNameChange}
+                    error={this.state.error}
+                    helperText={this.state.helperText}
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton onClick={this.handleNameClear}>
+                                <ClearIcon />
+                            </IconButton>
+                        ),
+                        inputProps: {
+                            style: {
+                                textAlign: "center",
+                                marginLeft: 24,
+                            },
+                        },
+                    }}
                 ></TextField>
                 <div className={classes.buttonDiv}>
                     <Button
-                        onClick={this.props.onSave}
+                        onClick={this.handleClick}
                         variant="contained"
                         color="default"
                         startIcon={<SaveIcon />}

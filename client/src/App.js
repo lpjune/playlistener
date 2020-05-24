@@ -6,7 +6,9 @@ import SuccessDialog from "./components/SuccessDialog";
 import {
     checkUrlForSpotifyAccessToken,
     setAccessToken,
-    getTracks,
+    youtubeGetPlaylist,
+    youtubeGetVideos,
+    spotifySearch,
     spotifyCreatePlaylist,
 } from "./util/Util";
 import {
@@ -47,7 +49,7 @@ export class App extends Component {
             accessToken: null,
             loading: false,
             urlEntered: false,
-            playlistName: "New Playlist",
+            playlistName: "",
             playlistTracks: [],
             youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
@@ -68,14 +70,21 @@ export class App extends Component {
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
-        return getTracks(playlistUrl)
-            .then((res) => {
-                this.setState({
-                    playlistTracks: res,
-                    loading: false,
-                });
-            })
-            .catch((err) => console.log(err));
+        return youtubeGetPlaylist(playlistUrl)
+        .then((res) => {
+            this.updatePlaylistName(res.playlistTitle);
+            return youtubeGetVideos(res.videoUrls);
+        })
+        .then((res) => {
+            return spotifySearch(res);
+        })
+        .then((res) => {
+            this.setState({
+                playlistTracks: res,
+                loading: false,
+            });
+        })
+        .catch((err) => console.log(err));
     };
     removeTrack = (track) => {
         this.setState({
@@ -89,7 +98,7 @@ export class App extends Component {
     };
     clearPlaylist = () => {
         this.setState({
-            playlistName: "New Playlist",
+            playlistName: "",
             playlistTracks: [],
             urlEntered: false,
             youtubePlaylistUrl: "",
