@@ -34,6 +34,12 @@ const SearchBar = (props) => {
         search(url);
     };
 
+    const handleEnter = (event) => {
+        if (event.key === "Enter") {
+            search(url);
+        }
+    };
+
     const handleDisabledClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -48,6 +54,7 @@ const SearchBar = (props) => {
                 fullWidth
                 value={url}
                 onChange={onChange}
+                onKeyPress={handleEnter}
                 variant="outlined"
                 placeholder="Enter a Youtube Playlist URL"
             ></TextField>
