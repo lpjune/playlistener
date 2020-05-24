@@ -101,7 +101,7 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        spotifyCreatePlaylist(this.state.playlistName, trackURIs).then(
+        spotifyCreatePlaylist(this.state.playlistName, trackURIs, this.state.youtubePlaylistUrl).then(
             (res) => {
                 let url = `http://open.spotify.com/user/spotify/playlist/${res}`;
                 this.setState({ spotifyPlaylistUrl: url });

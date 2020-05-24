@@ -60,7 +60,8 @@ export function getTracks(playlistUrl) {
         })
         .then((res) => {
             return spotifySearch(res);
-        });
+        })
+        .catch((err) => console.log(err));
 }
 
 /**
@@ -154,7 +155,7 @@ export function spotifySearch(trackSearchInfo) {
         .catch((err) => console.log(err));
 }
 
-export function spotifyCreatePlaylist(playlistName, trackURIs) {
+export function spotifyCreatePlaylist(playlistName, trackURIs, description) {
     if (!playlistName || !trackURIs) return;
     let userToken = globalAccessToken;
     return axios
@@ -163,6 +164,7 @@ export function spotifyCreatePlaylist(playlistName, trackURIs) {
                 name: playlistName,
                 tracks: trackURIs,
                 token: userToken,
+                description: description,
             },
         })
         .then((res) => {
@@ -173,5 +175,6 @@ export function spotifyCreatePlaylist(playlistName, trackURIs) {
             } else {
                 return false;
             }
-        });
+        })
+        .catch((err) => console.log(err));
 }

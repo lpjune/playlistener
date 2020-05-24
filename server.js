@@ -71,6 +71,7 @@ app.get("/api/createplaylist", (req, result) => {
     const userToken = req.query.token;
     const playlistName = req.query.name;
     const trackURIs = req.query.tracks;
+    const description = req.query.description;
     let userID;
     let playlistID;
 
@@ -83,6 +84,7 @@ app.get("/api/createplaylist", (req, result) => {
             let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
             let createPlaylistData = JSON.stringify({
                 name: playlistName,
+                description: description,
             });
 
             axios
