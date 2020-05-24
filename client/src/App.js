@@ -68,12 +68,14 @@ export class App extends Component {
     }
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
-        return getTracks(playlistUrl).then((res) => {
-            this.setState({
-                playlistTracks: res,
-                loading: false,
-            });
-        });
+        return getTracks(playlistUrl)
+            .then((res) => {
+                this.setState({
+                    playlistTracks: res,
+                    loading: false,
+                });
+            })
+            .catch((err) => console.log(err));
     };
     removeTrack = (track) => {
         this.setState({
@@ -101,13 +103,17 @@ export class App extends Component {
         const trackURIs = this.state.playlistTracks.map(
             (playlistTrack) => playlistTrack.uri
         );
-        spotifyCreatePlaylist(this.state.playlistName, trackURIs, this.state.youtubePlaylistUrl).then(
-            (res) => {
+        spotifyCreatePlaylist(
+            this.state.playlistName,
+            trackURIs,
+            this.state.youtubePlaylistUrl
+        )
+            .then((res) => {
                 let url = `http://open.spotify.com/user/spotify/playlist/${res}`;
                 this.setState({ spotifyPlaylistUrl: url });
                 this.openSuccessDialog();
-            }
-        );
+            })
+            .catch((err) => console.log(err));
     };
     openSuccessDialog = () => {
         this.setState({ successDialogOpen: true });
