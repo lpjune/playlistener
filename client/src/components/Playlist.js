@@ -87,6 +87,7 @@ export class Playlist extends Component {
                         variant="contained"
                         color="default"
                         startIcon={<SaveIcon />}
+                        disabled={this.state.error}
                     >
                         SAVE TO SPOTIFY
                     </Button>

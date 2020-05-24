@@ -29,24 +29,47 @@ const styles = (theme) => ({
     typography: {
         padding: 10,
     },
+    label: {
+        color: "#f44336",
+    },
 });
 
 const SearchBar = (props) => {
     const { classes, loggedIntoSpotify, onSearch, url, onChange } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [error, setError] = React.useState(false);
+    const [errorLabel, setErrorLabel] = React.useState("");
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
 
     const search = (term) => onSearch(term);
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        search(url);
+    const handleClick = () => {
+        if (!error && url.length > 0) {
+            search(url);
+        } else {
+            setError(true);
+            setErrorLabel("Enter a Youtube Playlist URL");
+        }
+    };
+
+    const handleNameChange = (event) => {
+        onChange(event.target.value);
+        if (event.target.value.length > 0) {
+            setError(false);
+            setErrorLabel("");
+        } else {
+            setError(true);
+            setErrorLabel("Enter a Youtube playlist URL");
+        }
     };
 
     const handleEnter = (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && !error && url.length > 0) {
             search(url);
+        } else {
+            setError(true);
+            setErrorLabel("Enter a Youtube playlist URL");
         }
     };
 
@@ -63,10 +86,13 @@ const SearchBar = (props) => {
             <TextField
                 fullWidth
                 value={url}
-                onChange={onChange}
+                onChange={handleNameChange}
                 onKeyPress={handleEnter}
+                error={error}
+                label={errorLabel}
+                labelclassname={classes["label"]}
                 variant="outlined"
-                placeholder="Enter a Youtube Playlist URL"
+                placeholder={error ? "" : "Enter a Youtube playlist URL"}
             ></TextField>
             <Button
                 className={classes.searchButton}

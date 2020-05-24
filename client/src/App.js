@@ -93,8 +93,8 @@ export class App extends Component {
             ),
         });
     };
-    handleInputChange = (event) => {
-        this.setState({ youtubePlaylistUrl: event.target.value });
+    handleInputChange = (url) => {
+        this.setState({ youtubePlaylistUrl: url });
     };
     clearPlaylist = () => {
         this.setState({
