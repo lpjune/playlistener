@@ -16,6 +16,16 @@ const styles = (theme) => ({
     searchButton: {
         marginLeft: 10,
     },
+    searchButtonDisabled: {
+        marginLeft: 10,
+        color: "rgba(0,0,0,0.26)",
+        boxShadow: "none",
+        backgroundColor: "rgba(0,0,0,0.12)",
+        "&:hover": {
+            boxShadow: "none",
+            backgroundColor: "rgba(0,0,0,0.12)",
+        },
+    },
     typography: {
         padding: 10,
     },
@@ -71,6 +81,7 @@ const SearchBar = (props) => {
     ) : (
         <div className={classes.searchDiv}>
             <TextField
+                onClick={handleDisabledClick}
                 disabled
                 fullWidth
                 value={url}
@@ -79,9 +90,8 @@ const SearchBar = (props) => {
             ></TextField>
             <Button
                 onClick={handleDisabledClick}
-                className={classes.searchButton}
+                className={classes.searchButtonDisabled}
                 variant="contained"
-                color="default"
                 startIcon={<ImportExportIcon />}
             >
                 Go!
