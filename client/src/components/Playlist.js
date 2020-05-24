@@ -24,6 +24,9 @@ const styles = (theme) => ({
         marginRight: "10%",
         marginBottom: 20,
     },
+    label: {
+        color: "#f44336",
+    },
 });
 
 export class Playlist extends Component {
@@ -31,7 +34,7 @@ export class Playlist extends Component {
         super(props);
         this.state = {
             error: false,
-            helperText: "",
+            errorLabel: "",
         };
     }
     handleClick = () => {
@@ -42,14 +45,14 @@ export class Playlist extends Component {
     handleNameChange = (event) => {
         this.props.onNameChange(event.target.value);
         if (event.target.value.length > 0) {
-            this.setState({ error: false, helperText: "" });
+            this.setState({ error: false, errorLabel: "" });
         } else {
-            this.setState({ error: true, helperText: "Enter a title" });
+            this.setState({ error: true, errorLabel: "Enter a playlist title" });
         }
     };
     handleNameClear = () => {
         this.props.onNameChange("");
-        this.setState({ error: true, helperText: "Enter a title" });
+        this.setState({ error: true, errorLabel: "Enter a playlist title" });
     };
 
     render() {
@@ -59,11 +62,11 @@ export class Playlist extends Component {
             <div className={classes.playlist}>
                 <TextField
                     className={classes.textField}
-                    placeholder="Enter a playlist title"
                     value={this.props.playlistName}
                     onChange={this.handleNameChange}
                     error={this.state.error}
-                    helperText={this.state.helperText}
+                    label={this.state.errorLabel}
+                    labelclassname={classes["label"]}
                     InputProps={{
                         endAdornment: (
                             <IconButton onClick={this.handleNameClear}>
