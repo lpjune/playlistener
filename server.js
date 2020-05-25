@@ -32,6 +32,7 @@ app.get("/api/info", (req, res) => {
                 artist: res.media.artist,
                 url: videoUrl,
             };
+            console.log(videoInfo)
         })
         .then(() => {
             res.json(videoInfo);

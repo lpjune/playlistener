@@ -87,6 +87,9 @@ export class App extends Component {
         .catch((err) => console.log(err));
     };
     removeTrack = (track) => {
+        if(this.state.playlistTracks.length === 1) {
+            this.clearPlaylist();
+        }
         this.setState({
             playlistTracks: this.state.playlistTracks.filter(
                 (playlistTrack) => playlistTrack.id !== track.id
