@@ -68,6 +68,15 @@ export function getTracks(playlistUrl) {
  * YOUTUBE
  *
  */
+
+// another regex
+// "^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*&list=([a-zA-Z0-9_\-]{18}))|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$"                      
+
+export function youtubeValidateURL(url) {
+    let reg = new RegExp("^https?://(www.youtube.com|youtube.com)/playlist(.+)$", "i")
+    return reg.test(url)
+}
+
 export function youtubeGetPlaylist(playlistUrl) {
     var reg = new RegExp("[&?]list=([a-z0-9_-]+)", "i");
     var playlistId = reg.exec(playlistUrl)[1];

@@ -1,4 +1,5 @@
 import React from "react";
+import { youtubeValidateURL } from "../util/Util";
 import {
     Button,
     TextField,
@@ -49,16 +50,25 @@ const SearchBar = (props) => {
             search(url);
         } else {
             setError(true);
-            setErrorLabel("Enter a Youtube Playlist URL");
+            setErrorLabel("Enter a Youtube playlist URL");
         }
     };
 
     const handleNameChange = (event) => {
         onChange(event.target.value);
         if (event.target.value.length > 0) {
-            setError(false);
-            setErrorLabel("");
+            // console.log("length > 0");
+            if (youtubeValidateURL(event.target.value)) {
+                // console.log("valid url");
+                setError(false);
+                setErrorLabel("");
+            } else {
+                // console.log("invalid url");
+                setError(true);
+                setErrorLabel("Enter a valid Youtube playlist URL");
+            }
         } else {
+            // console.log("no entry");
             setError(true);
             setErrorLabel("Enter a Youtube playlist URL");
         }
