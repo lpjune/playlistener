@@ -50,50 +50,54 @@ const SearchBar = (props) => {
     const search = (term) => onSearch(term);
 
     const handleClick = () => {
-        if (!error && url.length > 0) {
-            search(url);
+        if (url.length === 0) {
+            setEmptyError();
         } else {
-            setError(true);
             if (!youtubeValidateURL(url)) {
-                setErrorLabel("Enter a valid Youtube playlist URL");
+                setInvalidError();
             } else {
-                setErrorLabel("Enter a Youtube playlist URL");
+                search(url);
             }
         }
     };
 
+    const clearErrors = () => {
+        setError(false);
+        setErrorLabel("");
+    };
+
+    const setEmptyError = () => {
+        setError(true);
+        setErrorLabel("Enter a Youtube playlist URL");
+    };
+
+    const setInvalidError = () => {
+        setError(true);
+        setErrorLabel("Enter a valid Youtube playlist URL");
+    };
+
     const handleNameChange = (event) => {
         onChange(event.target.value);
-        if (event.target.value.length > 0) {
-            // console.log("length > 0");
-            if (youtubeValidateURL(event.target.value)) {
-                // console.log("valid url");
-                setError(false);
-                setErrorLabel("");
-            } else {
-                // console.log("invalid url");
-                setError(true);
-                setErrorLabel("Enter a valid Youtube playlist URL");
-            }
+
+        if (event.target.value.length === 0) {
+            setEmptyError();
         } else {
-            // console.log("no entry");
-            setError(true);
-            setErrorLabel("Enter a Youtube playlist URL");
+            if (!youtubeValidateURL(event.target.value)) {
+                setInvalidError();
+            } else {
+                clearErrors();
+            }
         }
     };
 
     const handleNameClear = () => {
         onChange("");
-        setError(true);
-        setErrorLabel("Enter a Youtube playlist URL");
+        setEmptyError();
     };
 
     const handleEnter = (event) => {
-        if (event.key === "Enter" && !error && url.length > 0) {
+        if (event.key === "Enter" && !error) {
             search(url);
-        } else {
-            setError(true);
-            setErrorLabel("Enter a Youtube playlist URL");
         }
     };
 
@@ -117,13 +121,17 @@ const SearchBar = (props) => {
                 labelclassname={classes["label"]}
                 variant="outlined"
                 placeholder={error ? "" : "Enter a Youtube playlist URL"}
-                InputProps={url ? {
-                    endAdornment: (
-                        <IconButton onClick={handleNameClear}>
-                            <ClearIcon />
-                        </IconButton>
-                    ),
-                }: null}
+                InputProps={
+                    url
+                        ? {
+                            endAdornment: (
+                                <IconButton onClick={handleNameClear}>
+                                    <ClearIcon />
+                                </IconButton>
+                            ),
+                        }
+                        : null
+                }
             ></TextField>
             <Button
                 className={classes.searchButton}
