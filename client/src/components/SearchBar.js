@@ -6,8 +6,12 @@ import {
     withStyles,
     Typography,
     Popover,
+    IconButton,
 } from "@material-ui/core";
-import { ImportExport as ImportExportIcon } from "@material-ui/icons";
+import {
+    ImportExport as ImportExportIcon,
+    Clear as ClearIcon,
+} from "@material-ui/icons";
 
 const styles = (theme) => ({
     ...theme.spreadThis,
@@ -50,7 +54,11 @@ const SearchBar = (props) => {
             search(url);
         } else {
             setError(true);
-            setErrorLabel("Enter a Youtube playlist URL");
+            if (!youtubeValidateURL(url)) {
+                setErrorLabel("Enter a valid Youtube playlist URL");
+            } else {
+                setErrorLabel("Enter a Youtube playlist URL");
+            }
         }
     };
 
@@ -72,6 +80,12 @@ const SearchBar = (props) => {
             setError(true);
             setErrorLabel("Enter a Youtube playlist URL");
         }
+    };
+
+    const handleNameClear = () => {
+        onChange("");
+        setError(true);
+        setErrorLabel("Enter a Youtube playlist URL");
     };
 
     const handleEnter = (event) => {
@@ -103,6 +117,13 @@ const SearchBar = (props) => {
                 labelclassname={classes["label"]}
                 variant="outlined"
                 placeholder={error ? "" : "Enter a Youtube playlist URL"}
+                InputProps={url ? {
+                    endAdornment: (
+                        <IconButton onClick={handleNameClear}>
+                            <ClearIcon />
+                        </IconButton>
+                    ),
+                }: null}
             ></TextField>
             <Button
                 className={classes.searchButton}
