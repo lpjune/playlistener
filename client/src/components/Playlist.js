@@ -27,6 +27,10 @@ const styles = (theme) => ({
     label: {
         color: "#f44336",
     },
+    input: {
+        textAlign: "center",
+        marginLeft: 24,
+    },
 });
 
 export class Playlist extends Component {
@@ -47,7 +51,10 @@ export class Playlist extends Component {
         if (event.target.value.length > 0) {
             this.setState({ error: false, errorLabel: "" });
         } else {
-            this.setState({ error: true, errorLabel: "Enter a playlist title" });
+            this.setState({
+                error: true,
+                errorLabel: "Enter a playlist title",
+            });
         }
     };
     handleNameClear = () => {
@@ -73,12 +80,7 @@ export class Playlist extends Component {
                                 <ClearIcon />
                             </IconButton>
                         ),
-                        inputProps: {
-                            style: {
-                                textAlign: "center",
-                                marginLeft: 24,
-                            },
-                        },
+                        inputProps: { className: classes.input },
                     }}
                 ></TextField>
                 <div className={classes.buttonDiv}>
