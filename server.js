@@ -12,7 +12,7 @@ app.get("/api/playlist", (req, res) => {
     ytpl(playlistId)
         .then((res) => {
             playlistTitle = res.title;
-            playlistInfo = res.items;
+            let playlistInfo = res.items;
             playlistInfo.forEach((video) => {
                 videoUrls.push(video.url);
             });
@@ -25,6 +25,7 @@ app.get("/api/playlist", (req, res) => {
 
 app.get("/api/info", (req, res) => {
     const videoUrl = req.query.url.toString();
+    let videoInfo;
     ytdl.getInfo(videoUrl)
         .then((res) => {
             videoInfo = {
@@ -72,7 +73,7 @@ app.get("/api/createplaylist", (req, result) => {
     const userToken = req.query.token;
     const playlistName = req.query.name;
     const trackURIs = req.query.tracks;
-    const description = req.query.description;
+    const playlistDescription = req.query.description;
     let userID;
     let playlistID;
 
@@ -85,7 +86,7 @@ app.get("/api/createplaylist", (req, result) => {
             let createPlaylistURI = `https://api.spotify.com/v1/users/${userID}/playlists`;
             let createPlaylistData = JSON.stringify({
                 name: playlistName,
-                description: description,
+                description: playlistDescription,
             });
 
             axios

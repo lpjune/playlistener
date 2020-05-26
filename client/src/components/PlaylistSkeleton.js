@@ -39,20 +39,20 @@ export class PlaylistSkeleton extends Component {
                     height={32}
                 />
                 <div className={classes.buttonDiv}>
-                <Skeleton
-                    variant="rect"
-                    animation="wave"
-                    width={161}
-                    height={36}
-                    component="div"
-                />
-                <Skeleton
-                    variant="rect"
-                    animation="wave"
-                    width={64}
-                    height={36}
-                    component="div"
-                />
+                    <Skeleton
+                        variant="rect"
+                        animation="wave"
+                        width={161}
+                        height={36}
+                        component="div"
+                    />
+                    <Skeleton
+                        variant="rect"
+                        animation="wave"
+                        width={64}
+                        height={36}
+                        component="div"
+                    />
                 </div>
                 <Skeleton
                     className={classes.card}

@@ -70,11 +70,14 @@ export function getTracks(playlistUrl) {
  */
 
 // another regex
-// "^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*&list=([a-zA-Z0-9_\-]{18}))|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$"                      
+// "^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*&list=([a-zA-Z0-9_\-]{18}))|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$"
 
 export function youtubeValidateURL(url) {
-    let reg = new RegExp("^https?://(www.youtube.com|youtube.com)/playlist(.+)$", "i")
-    return reg.test(url)
+    let reg = new RegExp(
+        "^https?://(www.youtube.com|youtube.com)/playlist(.+)$",
+        "i"
+    );
+    return reg.test(url);
 }
 
 export function youtubeGetPlaylist(playlistUrl) {
@@ -165,7 +168,9 @@ export function spotifySearch(trackSearchInfo) {
 }
 
 export function spotifyCreatePlaylist(playlistName, trackURIs, description) {
-    if (!playlistName || !trackURIs) return;
+    if (!playlistName || !trackURIs) {
+        return false;
+    }
     let userToken = globalAccessToken;
     return axios
         .get("/api/createplaylist", {

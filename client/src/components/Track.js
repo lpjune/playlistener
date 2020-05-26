@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { withStyles, Card, CardContent, Button, IconButton, Typography, CardMedia } from "@material-ui/core";
+import {
+    withStyles,
+    Card,
+    CardContent,
+    Button,
+    IconButton,
+    Typography,
+    CardMedia,
+} from "@material-ui/core";
 import { Clear as ClearIcon } from "@material-ui/icons";
 
-const styles = theme => ({
+const styles = (theme) => ({
     ...theme.spreadThis,
     card: {
         display: "flex",
@@ -38,7 +46,10 @@ export class Track extends Component {
 
         return (
             <Card className={classes.card}>
-                <CardMedia className={classes.art} image={this.props.track.art}></CardMedia>
+                <CardMedia
+                    className={classes.art}
+                    image={this.props.track.art}
+                ></CardMedia>
                 <CardContent className={classes.content}>
                     <Typography
                         className={classes.artist}

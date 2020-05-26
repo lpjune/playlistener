@@ -57,12 +57,12 @@ export class App extends Component {
         };
     }
     componentDidMount() {
-        const accessToken = checkUrlForSpotifyAccessToken();
-        if (accessToken) {
-            setAccessToken(accessToken);
+        const token = checkUrlForSpotifyAccessToken();
+        if (token) {
+            setAccessToken(token);
             this.setState({
                 loggedIntoSpotify: true,
-                accessToken: accessToken,
+                accessToken: token,
             });
         } else {
             this.setState({ loggedIntoSpotify: false, accessToken: null });
