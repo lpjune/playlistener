@@ -5,7 +5,6 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions,
-    Link,
     Button,
 } from "@material-ui/core";
 
