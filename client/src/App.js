@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import Playlist from "./components/Playlist";
 import SpotifyLoginButton from "./components/SpotifyLoginButton";
 import SuccessDialog from "./components/SuccessDialog";
+import ErrorDialog from "./components/ErrorDialog";
 import {
     checkUrlForSpotifyAccessToken,
     setAccessToken,
@@ -54,6 +55,8 @@ export class App extends Component {
             youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
             successDialogOpen: false,
+            errorDialogOpen: false,
+            errors: [],
         };
     }
     componentDidMount() {
@@ -71,23 +74,25 @@ export class App extends Component {
     findTracks = (playlistUrl) => {
         this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
         return youtubeGetPlaylist(playlistUrl)
-        .then((res) => {
-            this.updatePlaylistName(res.playlistTitle);
-            return youtubeGetVideos(res.videoUrls);
-        })
-        .then((res) => {
-            return spotifySearch(res);
-        })
-        .then((res) => {
-            this.setState({
-                playlistTracks: res,
-                loading: false,
+            .then((res) => {
+                this.updatePlaylistName(res.playlistTitle);
+                return youtubeGetVideos(res.videoUrls);
+            })
+            .then((res) => {
+                return spotifySearch(res);
+            })
+            .then((res) => {
+                this.setState({
+                    playlistTracks: res,
+                    loading: false,
+                });
+            })
+            .catch((err) => {
+                this.setState({ errors: err.message, openErrorDialog: true });
             });
-        })
-        .catch((err) => console.log(err));
     };
     removeTrack = (track) => {
-        if(this.state.playlistTracks.length === 1) {
+        if (this.state.playlistTracks.length === 1) {
             this.clearPlaylist();
         }
         this.setState({
@@ -106,6 +111,7 @@ export class App extends Component {
             urlEntered: false,
             youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
+            errors: [],
         });
     };
     updatePlaylistName = (name) => {
@@ -133,6 +139,12 @@ export class App extends Component {
     closeSuccessDialog = () => {
         this.setState({ successDialogOpen: false });
         this.clearPlaylist();
+    };
+    openErrorDialog = () => {
+        this.setState({ errorDialogOpen: true });
+    };
+    closeErrorDialog = () => {
+        this.setState({ errorDialogOpen: false });
     };
     render() {
         const { classes } = this.props;
@@ -164,6 +176,12 @@ export class App extends Component {
                         url={this.state.spotifyPlaylistUrl}
                         open={this.state.successDialogOpen}
                         onClose={this.closeSuccessDialog}
+                    />
+
+                    <ErrorDialog
+                        open={this.state.errorDialogOpen}
+                        onClose={this.closeErrorDialog}
+                        errors={this.state.errors}
                     />
 
                     {this.state.urlEntered ? (
