@@ -28,16 +28,14 @@ app.get("/api/info", (req, res) => {
     let videoInfo;
     ytdl.getInfo(videoUrl)
         .then((res) => {
-            console.log(res.videoDetails);
             videoInfo = {
                 name: res.videoDetails.media.song,
                 artist: res.videoDetails.media.artist,
                 url: videoUrl,
             };
-            // console.log(videoInfo);
         })
         .then(() => {
-            // console.log(videoInfo);
+            console.log(videoInfo);
             res.json(videoInfo);
         })
         .catch((err) => console.log(err));
