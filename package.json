@@ -19,7 +19,7 @@
     "axios": "^0.19.2",
     "concurrently": "^3.5.1",
     "express": "^4.16.2",
-    "ytdl-core": "^2.1.2",
-    "ytpl": "^0.1.21"
+    "ytdl-core": "^4.2.1",
+    "ytpl": "^2.0.4"
   }
 }
