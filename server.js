@@ -2,8 +2,11 @@ const express = require("express");
 const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 const axios = require("axios");
+const path = require("path");
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "client/build")));
 
 app.get("/api/playlist", (req, res) => {
     const playlistId = req.query.id.toString();
@@ -116,6 +119,6 @@ app.get("/api/createplaylist", (req, result) => {
         });
 });
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => `Server running on port ${port}`);
