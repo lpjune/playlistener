@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TrackList from "./TrackList";
+import Track from "./Track";
 import PlaylistSkeleton from "./PlaylistSkeleton";
 import { withStyles, TextField, Button, IconButton } from "@material-ui/core";
 import {
@@ -101,11 +101,13 @@ export class Playlist extends Component {
                         <DeleteIcon />
                     </Button>
                 </div>
-                <TrackList
-                    tracks={this.props.playlistTracks}
-                    onRemove={this.props.onRemove}
-                    isRemoval={true}
-                />
+                {this.props.playlistTracks.map((track) => (
+                    <Track
+                        key={track.id}
+                        track={track}
+                        onRemove={this.props.onRemove}
+                    />
+                ))}
             </div>
         ) : (
             <PlaylistSkeleton />

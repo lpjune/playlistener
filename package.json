@@ -18,10 +18,10 @@
     "nodemon": "^1.14.6"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "concurrently": "^3.5.1",
     "express": "^4.16.2",
-    "ytdl-core": "^4.2.1",
+    "ytdl-core": "^4.4.3",
     "ytpl": "^2.0.4"
   }
 }

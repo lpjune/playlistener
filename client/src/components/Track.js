@@ -66,7 +66,7 @@ export class Track extends Component {
                         {this.props.track.album}
                     </Typography>
                 </CardContent>
-                {this.props.isRemoval ? (
+                
                     <IconButton
                         className={classes.cardButton}
                         aria-label="delete"
@@ -75,9 +75,7 @@ export class Track extends Component {
                     >
                         <ClearIcon />
                     </IconButton>
-                ) : (
-                    <Button className={classes.cardButton}> + </Button>
-                )}
+                
             </Card>
         );
     }
