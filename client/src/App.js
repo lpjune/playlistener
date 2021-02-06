@@ -4,6 +4,8 @@ import Playlist from "./components/Playlist";
 import SpotifyLoginButton from "./components/SpotifyLoginButton";
 import SuccessDialog from "./components/SuccessDialog";
 import ErrorDialog from "./components/ErrorDialog";
+import { Provider } from "react-redux";
+
 import {
     checkUrlForSpotifyAccessToken,
     setAccessToken,
@@ -12,6 +14,7 @@ import {
     spotifySearch,
     spotifyCreatePlaylist,
 } from "./util/Util";
+import { getTracks } from "./redux/actions/dataActions";
 import {
     withStyles,
     MuiThemeProvider,
@@ -20,6 +23,8 @@ import {
     Typography,
 } from "@material-ui/core";
 import themeFile from "./util/Theme";
+import store from "./redux/store";
+import { SET_ACCESS_TOKEN } from "./redux/types";
 
 const theme = createMuiTheme(themeFile);
 const styles = (theme) => ({
@@ -62,7 +67,11 @@ export class App extends Component {
     componentDidMount() {
         const token = checkUrlForSpotifyAccessToken();
         if (token) {
-            setAccessToken(token);
+            // setAccessToken(token);
+            store.dispatch({
+                type: SET_ACCESS_TOKEN,
+                payload: token,
+            });
             this.setState({
                 loggedIntoSpotify: true,
                 accessToken: token,
@@ -151,61 +160,65 @@ export class App extends Component {
 
         return (
             <MuiThemeProvider theme={theme}>
-                <Container>
-                    <Typography
-                        className={classes.title}
-                        color="textPrimary"
-                        variant="h4"
-                    >
-                        playlistener
-                    </Typography>
-                    <Container
-                        className={classes.searchContainer}
-                        maxWidth={"md"}
-                    >
-                        <SearchBar
-                            url={this.state.youtubePlaylistUrl}
-                            onChange={this.handleInputChange}
-                            onSearch={this.findTracks}
-                            loggedIntoSpotify={this.state.loggedIntoSpotify}
+                <Provider store={store}>
+                    <Container>
+                        <Typography
+                            className={classes.title}
+                            color="textPrimary"
+                            variant="h4"
+                        >
+                            playlistener
+                        </Typography>
+                        <Container
+                            className={classes.searchContainer}
+                            maxWidth={"md"}
+                        >
+                            <SearchBar
+                                url={this.state.youtubePlaylistUrl}
+                                onChange={this.handleInputChange}
+                                onSearch={getTracks}
+                                loggedIntoSpotify={this.state.loggedIntoSpotify}
+                            />
+                        </Container>
+                        {!this.state.loggedIntoSpotify && (
+                            <SpotifyLoginButton />
+                        )}
+
+                        <SuccessDialog
+                            url={this.state.spotifyPlaylistUrl}
+                            open={this.state.successDialogOpen}
+                            onClose={this.closeSuccessDialog}
                         />
+
+                        <ErrorDialog
+                            open={this.state.errorDialogOpen}
+                            onClose={this.closeErrorDialog}
+                            errors={this.state.errors}
+                        />
+
+                        {this.state.urlEntered ? (
+                            <Container maxWidth={"sm"}>
+                                <Playlist
+                                    loading={this.state.loading}
+                                    playlistName={this.state.playlistName}
+                                    playlistTracks={this.state.playlistTracks}
+                                    onRemove={this.removeTrack}
+                                    onNameChange={this.updatePlaylistName}
+                                    onSave={this.savePlaylist}
+                                    onClear={this.clearPlaylist}
+                                />
+                            </Container>
+                        ) : (
+                            <Container className={classes.imgContainer}>
+                                <img
+                                    className={classes.image}
+                                    src="./images/info.png"
+                                    alt=""
+                                />
+                            </Container>
+                        )}
                     </Container>
-                    {!this.state.loggedIntoSpotify && <SpotifyLoginButton />}
-
-                    <SuccessDialog
-                        url={this.state.spotifyPlaylistUrl}
-                        open={this.state.successDialogOpen}
-                        onClose={this.closeSuccessDialog}
-                    />
-
-                    <ErrorDialog
-                        open={this.state.errorDialogOpen}
-                        onClose={this.closeErrorDialog}
-                        errors={this.state.errors}
-                    />
-
-                    {this.state.urlEntered ? (
-                        <Container maxWidth={"sm"}>
-                            <Playlist
-                                loading={this.state.loading}
-                                playlistName={this.state.playlistName}
-                                playlistTracks={this.state.playlistTracks}
-                                onRemove={this.removeTrack}
-                                onNameChange={this.updatePlaylistName}
-                                onSave={this.savePlaylist}
-                                onClear={this.clearPlaylist}
-                            />
-                        </Container>
-                    ) : (
-                        <Container className={classes.imgContainer}>
-                            <img
-                                className={classes.image}
-                                src="./images/info.png"
-                                alt=""
-                            />
-                        </Container>
-                    )}
-                </Container>
+                </Provider>
             </MuiThemeProvider>
         );
     }

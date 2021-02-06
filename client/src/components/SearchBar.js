@@ -8,6 +8,8 @@ import {
     Popover,
     IconButton,
 } from "@material-ui/core";
+import store from "../redux/store";
+import { getTracks } from "../redux/actions/dataActions";
 import {
     ImportExport as ImportExportIcon,
     Clear as ClearIcon,
@@ -56,7 +58,7 @@ const SearchBar = (props) => {
             if (!youtubeValidateURL(url)) {
                 setInvalidError();
             } else {
-                search(url);
+                store.dispatch(getTracks(url));
             }
         }
     };
@@ -124,12 +126,12 @@ const SearchBar = (props) => {
                 InputProps={
                     url
                         ? {
-                            endAdornment: (
-                                <IconButton onClick={handleNameClear}>
-                                    <ClearIcon />
-                                </IconButton>
-                            ),
-                        }
+                              endAdornment: (
+                                  <IconButton onClick={handleNameClear}>
+                                      <ClearIcon />
+                                  </IconButton>
+                              ),
+                          }
                         : null
                 }
             ></TextField>

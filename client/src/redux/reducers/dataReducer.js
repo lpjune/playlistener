@@ -6,12 +6,16 @@ import {
     SET_PLAYLIST_NAME,
     SET_TRACKS,
     DELETE_TRACK,
+    SET_VIDEO_URLS,
+    SET_VIDEO_INFO,
 } from "../types";
 
 const initialState = {
     loading: false,
     accessToken: null,
     youtubePlaylistUrl: "",
+    videoUrls: [],
+    videoInfo: [],
     spotifyPlaylistUrl: "",
     playlistName: "",
     playlistTracks: [],
@@ -34,6 +38,16 @@ export default function (state = initialState, action) {
                 ...state,
                 youtubePlaylistUrl: action.payload,
             };
+        case SET_VIDEO_URLS:
+            return {
+                ...state,
+                videoUrls: action.payload,
+            };
+        case SET_VIDEO_INFO:
+            return {
+                ...state,
+                videoInfo: action.payload,
+            };
         case SET_SPOTIFY_URL:
             return {
                 ...state,
@@ -50,17 +64,23 @@ export default function (state = initialState, action) {
                 playlistTracks: action.payload,
             };
         case DELETE_TRACK:
-            if (playlistTracks.length === 1) {
-                return {
-                    ...state,
-                    playlistTracks: [],
-                };
-            }
             return {
                 ...state,
-                playlistTracks: playlistTracks.filter(
-                    (track) => track.id !== action.payload.id
-                ),
+                playlistTracks: [],
             };
+        // if (playlistTracks.length === 1) {
+        //     return {
+        //         ...state,
+        //         playlistTracks: [],
+        //     };
+        // }
+        // return {
+        //     ...state,
+        //     playlistTracks: playlistTracks.filter(
+        //         (track) => track.id !== action.payload.id
+        //     ),
+        // };
+        default:
+            return state;
     }
 }
