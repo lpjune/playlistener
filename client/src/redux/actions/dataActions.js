@@ -133,7 +133,7 @@ export const spotifyCreatePlaylist = (playlistName, trackURIs, description) => (
     if (!playlistName || !trackURIs) {
         return false;
     }
-    let userToken = store.getState().dataReducer.accessToken;
+    let userToken = store.getState().data.accessToken;
     return axios
         .get("/api/createplaylist", {
             params: {

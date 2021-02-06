@@ -53,10 +53,7 @@ export class App extends Component {
         this.state = {
             loggedIntoSpotify: false,
             accessToken: null,
-            loading: false,
             urlEntered: false,
-            playlistName: "",
-            playlistTracks: [],
             youtubePlaylistUrl: "",
             spotifyPlaylistUrl: "",
             successDialogOpen: false,
@@ -80,26 +77,7 @@ export class App extends Component {
             this.setState({ loggedIntoSpotify: false, accessToken: null });
         }
     }
-    findTracks = (playlistUrl) => {
-        this.setState({ loading: true, urlEntered: true, playlistTracks: [] });
-        return youtubeGetPlaylist(playlistUrl)
-            .then((res) => {
-                this.updatePlaylistName(res.playlistTitle);
-                return youtubeGetVideos(res.videoUrls);
-            })
-            .then((res) => {
-                return spotifySearch(res);
-            })
-            .then((res) => {
-                this.setState({
-                    playlistTracks: res,
-                    loading: false,
-                });
-            })
-            .catch((err) => {
-                this.setState({ errors: err.message, openErrorDialog: true });
-            });
-    };
+    
     removeTrack = (track) => {
         if (this.state.playlistTracks.length === 1) {
             this.clearPlaylist();
@@ -196,32 +174,21 @@ export class App extends Component {
                             errors={this.state.errors}
                         />
 
-                        {this.state.urlEntered ? (
                             <Container maxWidth={"sm"}>
                                 <Playlist
-                                    loading={this.state.loading}
-                                    playlistName={this.state.playlistName}
-                                    playlistTracks={this.state.playlistTracks}
+                                    playlistName={store.getState().data.playlistName}
+                                    playlistTracks={store.getState().data.playlistTracks}
                                     onRemove={this.removeTrack}
                                     onNameChange={this.updatePlaylistName}
                                     onSave={this.savePlaylist}
                                     onClear={this.clearPlaylist}
                                 />
                             </Container>
-                        ) : (
-                            <Container className={classes.imgContainer}>
-                                <img
-                                    className={classes.image}
-                                    src="./images/info.png"
-                                    alt=""
-                                />
-                            </Container>
-                        )}
+                        
                     </Container>
                 </Provider>
             </MuiThemeProvider>
         );
-    }
-}
+    }}
 
 export default withStyles(styles)(App);

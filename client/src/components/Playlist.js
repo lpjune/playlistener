@@ -65,7 +65,7 @@ export class Playlist extends Component {
     render() {
         const { classes } = this.props;
 
-        let playlistMarkup = !this.props.loading ? (
+        let playlistMarkup = 
             <div className={classes.playlist}>
                 <TextField
                     className={classes.textField}
@@ -109,9 +109,7 @@ export class Playlist extends Component {
                     />
                 ))}
             </div>
-        ) : (
-            <PlaylistSkeleton />
-        );
+        
 
         return playlistMarkup;
     }
