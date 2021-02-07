@@ -7,6 +7,7 @@ import {
     DeleteOutline as DeleteIcon,
     Clear as ClearIcon,
 } from "@material-ui/icons";
+import { connect } from "react-redux";
 
 const styles = (theme) => ({
     ...theme.spreadThis,
@@ -64,8 +65,9 @@ export class Playlist extends Component {
 
     render() {
         const { classes } = this.props;
+        // const { playlistName, playlistTracks } = this.props.data;
 
-        let playlistMarkup = 
+        let playlistMarkup = (
             <div className={classes.playlist}>
                 <TextField
                     className={classes.textField}
@@ -101,18 +103,24 @@ export class Playlist extends Component {
                         <DeleteIcon />
                     </Button>
                 </div>
-                {this.props.playlistTracks.map((track) => (
+                {this.props.data.playlistTracks ? this.props.data.playlistTracks.map((track) => (
+                    
+
                     <Track
                         key={track.id}
                         track={track}
                         onRemove={this.props.onRemove}
                     />
-                ))}
+                )) : <div></div>}
             </div>
-        
+        );
 
         return playlistMarkup;
     }
 }
 
-export default withStyles(styles)(Playlist);
+const mapStateToProps = (state) => ({
+    data: state.data,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Playlist));

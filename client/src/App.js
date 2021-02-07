@@ -176,8 +176,7 @@ export class App extends Component {
 
                             <Container maxWidth={"sm"}>
                                 <Playlist
-                                    playlistName={store.getState().data.playlistName}
-                                    playlistTracks={store.getState().data.playlistTracks}
+                                    
                                     onRemove={this.removeTrack}
                                     onNameChange={this.updatePlaylistName}
                                     onSave={this.savePlaylist}
